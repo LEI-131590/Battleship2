@@ -6,6 +6,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+import java.nio.file.Paths;
+import org.openpdf.text.DocumentException;
+
 /**
  * The type Tasks.
  */
@@ -32,6 +36,7 @@ public class Tasks {
 	private static final String MAPA = "mapa";
 	private static final String STATUS = "estado";
 	private static final String SIMULA = "simula";
+	private static final String PDF = "pdf";
 
 	/**
 	 * This task also tests the fighting element of a round of three shots
@@ -74,7 +79,6 @@ public class Tasks {
 
 						if (game.getRemainingShips() == 0) {
 							game.over();
-							System.exit(0);
 						}
 					}
 					break;
@@ -93,7 +97,6 @@ public class Tasks {
 
 						if (game.getRemainingShips() == 0) {
 							game.over();
-							System.exit(0);
 						}
 					}
 					break;
@@ -104,6 +107,18 @@ public class Tasks {
                 case AJUDA:
                     menuHelp();
                     break;
+				case PDF:
+					if (game != null) {
+						try {
+							PdfReport.export(game, Paths.get("relatorio-battleship.pdf"));
+							System.out.println("Relatorio PDF criado com sucesso: " + "relatorio-battleship.pdf");
+						} catch (IOException | DocumentException e) {
+							System.err.println("Erro ao criar o relatorio PDF: " + e.getMessage());
+						}
+					} else {
+						System.out.println("Crie ou carregue uma frota primeiro.");
+					}
+					break;
 				default:
 					System.out.println("Que comando é esse??? Repete ...");
 			}
@@ -127,6 +142,7 @@ public class Tasks {
 		System.out.println("- " + SIMULA + ": Simula um jogo completo.");
 		System.out.println("- " + TIROS + ": Lista os tiros válidos realizados (* = tiro em navio, o = tiro na água)");
 		System.out.println("- " + DESISTIR + ": Encerra o jogo.");
+		System.out.println("- " + PDF + ": Gera o relatório do jogo como pdf.");
 		System.out.println("===============================================================");
 	}
 	/**
