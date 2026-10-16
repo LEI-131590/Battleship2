@@ -40,6 +40,10 @@ public class Tasks {
 
 		IFleet myFleet = null;
 		IGame game = null;
+
+		// Initializes the database and creates the table if it doesn't exist
+		HistoryDB.initializeDatabase();
+
 		menuHelp();
 
 		System.out.print("> ");
