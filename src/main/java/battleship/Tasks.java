@@ -59,8 +59,10 @@ public class Tasks {
 					game.printMyBoard(false, true);
 					break;
 				case STATUS:
-					if (myFleet != null)
-						myFleet.printStatus();
+					if (myFleet != null && game != null) {
+						game.printMyBoard(false, true);
+						Board.launchApp(myFleet, game.getAlienMoves(), (Game) game);
+					}
 					break;
 				case MAPA:
 					if (myFleet != null)
