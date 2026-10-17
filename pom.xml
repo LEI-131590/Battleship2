@@ -134,6 +134,12 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.github.librepdf</groupId>
+			<artifactId>openpdf</artifactId>
+			<version>3.0.5</version>
+		</dependency>
+
 		<!-- SQLite JDBC -->
 		<!-- Source: https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc -->
 		<dependency>
