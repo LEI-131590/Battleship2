@@ -36,7 +36,6 @@ public class Tasks {
 	private static final String MAPA = "mapa";
 	private static final String STATUS = "estado";
 	private static final String SIMULA = "simula";
-	private static final String PDF = "pdf";
 
 	/**
 	 * This task also tests the fighting element of a round of three shots
@@ -70,8 +69,12 @@ public class Tasks {
 					}
 					break;
 				case MAPA:
-					if (myFleet != null)
+					if (myFleet != null && game != null) {
+						// Mostra o mapa na consola como já tinhas:
 						game.printMyBoard(false, true);
+						// E agora abres também a nova interface gráfica JavaFX!
+						Board.launchApp(myFleet, game.getAlienMoves(), (Game) game);
+					}
 					break;
 				case RAJADA:
 					if (game != null) {
@@ -109,18 +112,7 @@ public class Tasks {
                 case AJUDA:
                     menuHelp();
                     break;
-				case PDF:
-					if (game != null) {
-						try {
-							PdfReport.export(game, Paths.get("relatorio-battleship.pdf"));
-							System.out.println("Relatorio PDF criado com sucesso: " + "relatorio-battleship.pdf");
-						} catch (IOException | DocumentException e) {
-							System.err.println("Erro ao criar o relatorio PDF: " + e.getMessage());
-						}
-					} else {
-						System.out.println("Crie ou carregue uma frota primeiro.");
-					}
-					break;
+
 				default:
 					System.out.println("Que comando é esse??? Repete ...");
 			}
@@ -144,7 +136,6 @@ public class Tasks {
 		System.out.println("- " + SIMULA + ": Simula um jogo completo.");
 		System.out.println("- " + TIROS + ": Lista os tiros válidos realizados (* = tiro em navio, o = tiro na água)");
 		System.out.println("- " + DESISTIR + ": Encerra o jogo.");
-		System.out.println("- " + PDF + ": Gera o relatório do jogo como pdf.");
 		System.out.println("===============================================================");
 	}
 	/**
