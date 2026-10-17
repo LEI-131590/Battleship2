@@ -1,6 +1,7 @@
 package battleship;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,12 +17,14 @@ public class Board extends Application {
 
     private static final int BOARD_SIZE = 10;
     private final char[] rows = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
-    private static int currentTurnShots = 0;
 
     // Static variables to share the game state with the graphical interface
     public static IFleet currentFleet;
     public static List<IMove> currentMoves;
     public static Game currentGame;
+
+    // Control flag to handle JavaFX lifecycle across multiple calls
+    private static boolean isJavaFXStarted = false;
 
     @Override
     public void start(Stage primaryStage) {
@@ -68,36 +71,6 @@ public class Board extends Application {
 
                 // Update cell color and appearance based on the game engine
                 updateCellAppearance(cellButton, pos);
-
-                // Action when clicking on the cell (board interaction)
-                cellButton.setOnAction(e -> {
-                    // Check if 3 shots have already been made in this graphical round
-                    if (currentTurnShots >= Game.NUMBER_SHOTS) {
-                        System.out.println("The limit of 3 shots for this burst has already been reached! Submit or reset the round.");
-                        return;
-                    }
-
-                    System.out.println("Selected shot: " + pos);
-                    currentTurnShots++;
-
-                    boolean isHit = (currentFleet != null && currentFleet.shipAt(pos) != null);
-
-                    if (isHit) {
-                        currentFleet.shipAt(pos).shoot(pos);
-                        cellButton.setStyle("-fx-background-color: #cf222e; -fx-text-fill: white; -fx-font-weight: bold;"); // Red (Hit)
-                        cellButton.setText("X");
-                    } else {
-                        cellButton.setStyle("-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold;"); // Blue (Water)
-                        cellButton.setText("o");
-                    }
-                    cellButton.setDisable(true); // Disable so it cannot be repeated in the same spot
-
-                    if (currentTurnShots == Game.NUMBER_SHOTS) {
-                        System.out.println("-> Burst of 3 shots successfully completed!");
-                        // You can optionally submit to the game here if you want to link it to the moves list
-                        //currentTurnShots = 0; // Reset for the next burst
-                    }
-                });
 
                 grid.add(cellButton, j, i + 1);
             }
@@ -157,7 +130,25 @@ public class Board extends Application {
         currentFleet = fleet;
         currentMoves = moves;
         currentGame = game;
-        launch(new String[0]);
+
+        if (!isJavaFXStarted) {
+            isJavaFXStarted = true;
+            try {
+                // Initialize JavaFX platform non-blockingly
+                Platform.startup(() -> {});
+            } catch (Exception e) {
+                // Platform already started
+            }
+        }
+
+        Platform.runLater(() -> {
+            try {
+                Stage stage = new Stage();
+                new Board().start(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public static void launchApp(String[] args) {
