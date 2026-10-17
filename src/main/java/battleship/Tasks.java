@@ -40,6 +40,7 @@ public class Tasks {
 
 		IFleet myFleet = null;
 		IGame game = null;
+		VoyageStats voyage = new VoyageStats();
 		menuHelp();
 
 		System.out.print("> ");
@@ -51,11 +52,13 @@ public class Tasks {
 				case GERAFROTA:
 					myFleet = Fleet.createRandom();
 					game = new Game(myFleet);
+					voyage.start();
 					game.printMyBoard(false, true);
 					break;
 				case LEFROTA:
 					myFleet = buildFleet(in);
 					game = new Game(myFleet);
+					voyage.start();
 					game.printMyBoard(false, true);
 					break;
 				case STATUS:
@@ -73,6 +76,8 @@ public class Tasks {
 						game.printMyBoard(true, false);
 
 						if (game.getRemainingShips() == 0) {
+							voyage.finish(game);
+							voyage.printSummary();
 							game.over();
 							System.exit(0);
 						}
