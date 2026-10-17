@@ -36,6 +36,7 @@ public class Tasks {
 	private static final String MAPA = "mapa";
 	private static final String STATUS = "estado";
 	private static final String SIMULA = "simula";
+	private static final String RANKING =  "ranking";
 	private static final String PDF = "pdf";
 
 	/**
@@ -45,6 +46,7 @@ public class Tasks {
 
 		IFleet myFleet = null;
 		IGame game = null;
+		VoyageStats voyage = new VoyageStats();
 		menuHelp();
 
 		System.out.print("> ");
@@ -56,11 +58,13 @@ public class Tasks {
 				case GERAFROTA:
 					myFleet = Fleet.createRandom();
 					game = new Game(myFleet);
+					voyage.start();
 					game.printMyBoard(false, true);
 					break;
 				case LEFROTA:
 					myFleet = buildFleet(in);
 					game = new Game(myFleet);
+					voyage.start();
 					game.printMyBoard(false, true);
 					break;
 				case STATUS:
@@ -78,6 +82,15 @@ public class Tasks {
 						game.printMyBoard(true, false);
 
 						if (game.getRemainingShips() == 0) {
+							voyage.finish(game);
+							voyage.printSummary();
+							System.out.print("Nome do navegador: ");
+							String name = in.next();
+							RankingBoard ranking = new RankingBoard();
+							int position = ranking.add(name, voyage);
+							System.out.println("Ficaste em " + position + "º lugar!");
+							ranking.printTop();
+							VoyageWindow.show(voyage, ranking, name, position);
 							game.over();
 						}
 					}
@@ -103,6 +116,9 @@ public class Tasks {
 				case TIROS:
 					if (game != null)
 						game.printMyBoard(true, true);
+					break;
+				case RANKING:
+					new RankingBoard().printTop();
 					break;
                 case AJUDA:
                     menuHelp();
@@ -141,6 +157,7 @@ public class Tasks {
 		System.out.println("- " + RAJADA + ": Realiza uma rajada de disparos.");
 		System.out.println("- " + SIMULA + ": Simula um jogo completo.");
 		System.out.println("- " + TIROS + ": Lista os tiros válidos realizados (* = tiro em navio, o = tiro na água)");
+		System.out.println("- " + RANKING + ": Mostra o ranking dos Grandes Navegadores.");
 		System.out.println("- " + DESISTIR + ": Encerra o jogo.");
 		System.out.println("- " + PDF + ": Gera o relatório do jogo como pdf.");
 		System.out.println("===============================================================");
