@@ -85,6 +85,7 @@ public class Tasks {
 							int position = ranking.add(name, voyage);
 							System.out.println("Ficaste em " + position + "º lugar!");
 							ranking.printTop();
+							VoyageWindow.show(voyage, ranking, name, position);
 							game.over();
 							System.exit(0);
 						}
