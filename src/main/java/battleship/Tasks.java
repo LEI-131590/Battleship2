@@ -76,8 +76,12 @@ public class Tasks {
 						myFleet.printStatus();
 					break;
 				case MAPA:
-					if (myFleet != null)
+					if (myFleet != null && game != null) {
+						// Mostra o mapa na consola como já tinhas:
 						game.printMyBoard(false, true);
+						// E agora abres também a nova interface gráfica JavaFX!
+						Board.launchApp(myFleet, game.getAlienMoves(), (Game) game);
+					}
 					break;
 				case RAJADA:
 					if (game != null) {
