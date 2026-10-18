@@ -36,6 +36,7 @@ public class Tasks {
 	private static final String MAPA = "mapa";
 	private static final String STATUS = "estado";
 	private static final String SIMULA = "simula";
+	private static final String RANKING =  "ranking";
 	private static final String PDF = "pdf";
 
 	/**
@@ -49,7 +50,7 @@ public class Tasks {
 		HistoryDB.initializeDatabase();
 
 		VoyageStats voyage = new VoyageStats();
-
+    
 		menuHelp();
 
 		System.out.print("> ");
@@ -61,6 +62,7 @@ public class Tasks {
 				case GERAFROTA:
 					myFleet = Fleet.createRandom();
 					game = new Game(myFleet);
+					voyage.start();
 					game.printMyBoard(false, true);
 					break;
 				case LEFROTA:
@@ -70,10 +72,8 @@ public class Tasks {
 					game.printMyBoard(false, true);
 					break;
 				case STATUS:
-					if (myFleet != null && game != null) {
-						game.printMyBoard(false, true);
-						Board.launchApp(myFleet, game.getAlienMoves(), (Game) game);
-					}
+					if (myFleet != null)
+						myFleet.printStatus();
 					break;
 				case MAPA:
 					if (myFleet != null && game != null) {
