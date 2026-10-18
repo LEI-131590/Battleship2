@@ -154,34 +154,45 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ## Prompt
 A prompt final usada para refinar a estratégia de jogo do LLM foi:
-•  Crie um Diário de Bordo com o registo de cada rajada disparada, numerando-as se
+*  Crie um Diário de Bordo com o registo de cada rajada disparada, numerando-as se
    quencialmente (Rajada 1, 2, 3...). Guarde as coordenadas exatas de cada tiro e o
    respetivo resultado (Água, Nau atingida, Barca afundada, etc.). A memória é a principal 
    arma de um bom estratega.
-•  Não dispare fora dos limites do mapa (ex: Z99) nem repita tiros em coordenadas
+   
+*  Não dispare fora dos limites do mapa (ex: Z99) nem repita tiros em coordenadas
    já testadas. A única exceção para este desperdício de pólvora é a última rajada do
    jogo, apenas para perfazer os 3 tiros obrigatórios quando a frota inimiga já estiver
    irremediavelmente no fundo do mar.
-•  Se atingir um navio numa rajada, dispare nas posições contíguas (Norte, Sul, Este,
+   
+*  Se atingir um navio numa rajada, dispare nas posições contíguas (Norte, Sul, Este,
    Oeste) na jogada seguinte para descobrir a orientação da embarcação e acabar de a
    afundar. No entanto, se a rajada anterior confirmar que o navio já foi afundado, não
    dispare para as posições contíguas, pois os navios nunca estão encostados.
-•  Como as Caravelas, Naus e Fragatas são linhas retas, um tiro certeiro significa que o
+   
+*  Como as Caravelas, Naus e Fragatas são linhas retas, um tiro certeiro significa que o
    resto do navio está na horizontal ou na vertical. Como os navios não se podem tocar
    (nem sequer nos cantos), as posições diagonais a um tiro certeiro são garantidamente
    água (a única exceção é o corpo do Galeão, devido à sua forma em T). Evitar estas
    diagonais poupa imensos tiros.
-•  Quando o relatório de uma rajada confirmar que um navio foi afundado (ex: Fragata de
+   
+*  Quando o relatório de uma rajada confirmar que um navio foi afundado (ex: Fragata de
    4 posições), analise os dados do seu Diário de Bordo para identificar exatamente onde
    caíram esses 4 tiros. Confirmada a posição exata da carcaça, marque todas as qua
    drículas adjacentes (o halo de 1 posição em redor do navio) como água intransitável.
    É impossível haver outra embarcação nesse perímetro.
-•  Se a sua frota for toda afundada, declare a derrota com honra. Em contrapartida, seja
+   
+*  Se a sua frota for toda afundada, declare a derrota com honra. Em contrapartida, seja
    um vencedor magnânimo se for o inimigo a render-se com os navios todos no fundo
    do oceano!
-•  Antes de definir de forma final a sua frota valide que nenhum dos navios têm pelo menos 
+   
+*  Antes de definir de forma final a sua frota valide que nenhum dos navios têm pelo menos 
    uma quadrícula de água de distância dos restantes navios, seja e cima, baixo, lados ou 
    na diagonal.
-•  Quando um navio se afunda, o modelo deve identificar todas as células que cobrem o perímetro 
+   
+*  Quando um navio se afunda, o modelo deve identificar todas as células que cobrem o perímetro 
    do navio, e nunca mais disparar para essas posições, pois é impossível estar aí algum navio 
    segundo a rera da adjacência
+   
+*  Quando o relatório de uma rajada indicar que existem múltiplos navios atingidos em simultâneo no tabuleiro, o modelo deve escolher apenas um desses alvos e focar os seus próximos tiros exclusivamente nas posições adjacentes a este. Apenas após confirmar o afundamento desse alvo é que deve transitar para a caça dos restantes navios feridos.
+•  Quando não existirem navios atingidos no radar, o modelo deve entrar em modo de caça e utilizar os tiros da rajada para explorar zonas do mapa completamente distintas. O modelo deve garantir um espaçamento de pelo menos duas a três quadrículas entre cada tiro, otimizando assim a área de procura e evitando disparos demasiado concentrados em águas desconhecidas.
+   
