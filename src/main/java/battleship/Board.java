@@ -133,6 +133,7 @@ public class Board extends Application {
 
         if (!isJavaFXStarted) {
             isJavaFXStarted = true;
+            Platform.setImplicitExit(false);
             try {
                 // Initialize JavaFX platform non-blockingly
                 Platform.startup(() -> {});
