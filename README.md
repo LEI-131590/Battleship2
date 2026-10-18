@@ -8,6 +8,14 @@
 
 ---
 
+## Vídeo de Demonstração
+[Funcionalidades](https://youtu.be/aXs30Tk6CHU)
+[Interação com LLM](https://youtu.be/NryprOJlPGw)
+
+
+
+---
+
 ## 📖 Table of Contents
 - [Project Overview](#-project-overview)
 - [Key Features](#-key-features)
