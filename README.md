@@ -194,5 +194,6 @@ A prompt final usada para refinar a estratégia de jogo do LLM foi:
    segundo a rera da adjacência
    
 *  Quando o relatório de uma rajada indicar que existem múltiplos navios atingidos em simultâneo no tabuleiro, o modelo deve escolher apenas um desses alvos e focar os seus próximos tiros exclusivamente nas posições adjacentes a este. Apenas após confirmar o afundamento desse alvo é que deve transitar para a caça dos restantes navios feridos.
-•  Quando não existirem navios atingidos no radar, o modelo deve entrar em modo de caça e utilizar os tiros da rajada para explorar zonas do mapa completamente distintas. O modelo deve garantir um espaçamento de pelo menos duas a três quadrículas entre cada tiro, otimizando assim a área de procura e evitando disparos demasiado concentrados em águas desconhecidas.
+  
+*  Quando não existirem navios atingidos no radar, o modelo deve entrar em modo de caça e utilizar os tiros da rajada para explorar zonas do mapa completamente distintas. O modelo deve garantir um espaçamento de pelo menos duas a três quadrículas entre cada tiro, otimizando assim a área de procura e evitando disparos demasiado concentrados em águas desconhecidas.
    
