@@ -197,7 +197,7 @@ A prompt final usada para refinar a estratégia de jogo do LLM foi:
   
 *  Quando não existirem navios atingidos no radar, o modelo deve entrar em modo de caça e utilizar os tiros da rajada para explorar zonas do mapa completamente distintas. O modelo deve garantir um espaçamento de pelo menos duas a três quadrículas entre cada tiro, otimizando assim a área de procura e evitando disparos demasiado concentrados em águas desconhecidas.
 
-*  *  Depois de descobrir a orientação de um navio (dois tiros certeiros seguidos na mesma
+*  Depois de descobrir a orientação de um navio (dois tiros certeiros seguidos na mesma
    linha ou coluna), o modelo deve continuar a disparar ao longo dessa linha, nas duas
    pontas, até o navio ser dado como afundado. Não deve voltar ao modo de caça com um
    navio ferido no mapa.
