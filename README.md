@@ -185,15 +185,29 @@ A prompt final usada para refinar a estratégia de jogo do LLM foi:
    um vencedor magnânimo se for o inimigo a render-se com os navios todos no fundo
    do oceano!
    
-*  Antes de definir de forma final a sua frota valide que nenhum dos navios têm pelo menos 
-   uma quadrícula de água de distância dos restantes navios, seja e cima, baixo, lados ou 
+*  Antes de definir de forma final a sua frota valide que todos os navios têm pelo menos 
+   uma quadrícula de água de distância dos restantes navios, seja em cima, baixo, lados ou 
    na diagonal.
    
 *  Quando um navio se afunda, o modelo deve identificar todas as células que cobrem o perímetro 
    do navio, e nunca mais disparar para essas posições, pois é impossível estar aí algum navio 
-   segundo a rera da adjacência
+   segundo a regra da adjacência
    
 *  Quando o relatório de uma rajada indicar que existem múltiplos navios atingidos em simultâneo no tabuleiro, o modelo deve escolher apenas um desses alvos e focar os seus próximos tiros exclusivamente nas posições adjacentes a este. Apenas após confirmar o afundamento desse alvo é que deve transitar para a caça dos restantes navios feridos.
   
 *  Quando não existirem navios atingidos no radar, o modelo deve entrar em modo de caça e utilizar os tiros da rajada para explorar zonas do mapa completamente distintas. O modelo deve garantir um espaçamento de pelo menos duas a três quadrículas entre cada tiro, otimizando assim a área de procura e evitando disparos demasiado concentrados em águas desconhecidas.
+
+*  *  Depois de descobrir a orientação de um navio (dois tiros certeiros seguidos na mesma
+   linha ou coluna), o modelo deve continuar a disparar ao longo dessa linha, nas duas
+   pontas, até o navio ser dado como afundado. Não deve voltar ao modo de caça com um
+   navio ferido no mapa.
+
+*  Galeão (forma em T): se o modelo acertar em 3 posições em linha reta e o navio não
+   afundar, não se trata de uma Nau mas sim de um Galeão. Deve então disparar nas posições
+   perpendiculares à volta da posição do meio e das pontas dessa linha, para encontrar a
+   haste do T.
+
+*  Cada resposta do modelo deve conter apenas a rajada, num JSON válido com exatamente
+   3 tiros (ex: [{"row":"C","column":5},{"row":"G","column":3},{"row":"I","column":10}]),
+   sem texto explicativo à volta, para poder ser lida diretamente pelo jogo.
    
