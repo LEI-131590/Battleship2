@@ -143,6 +143,6 @@ public class PdfReport {
     }
 
     // Provoke ParameterName
-    public void testParameterName(int Player_score) { }
+    public void testParameterName(int playerScore) { }
 
 }
