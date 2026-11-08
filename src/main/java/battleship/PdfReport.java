@@ -144,35 +144,62 @@ public class PdfReport {
 
     // Provoke Feature Envy
     private static char[][] createBoardFeatureEnvyTest(IGame game) {
+        char[][] board = initializeBoard();
+        IFleet fleet = game.getMyFleet();
+        drawFleet(board, fleet);
+        drawSunkShipAdjacencies(board, fleet);
+        drawAlienShots(board, game.getAlienMoves(), fleet);
+        return board;
+    }
+
+    // To refactor Feature Envy method
+    private static char[][] initializeBoard() {
         char[][] board = new char[Game.BOARD_SIZE][Game.BOARD_SIZE];
+
         for (int i = 0; i < Game.BOARD_SIZE; i++) {
             for (int j = 0; j < Game.BOARD_SIZE; j++) {
                 board[i][j] = 'F';
             }
         }
-        IFleet fleet = game.getMyFleet();
+
+        return board;
+    }
+
+    private static void drawFleet(char[][] board, IFleet fleet) {
         for (IShip ship : fleet.getShips()) {
             for (IPosition position : ship.getPositions()) {
                 board[position.getRow()][position.getColumn()] = 'E';
             }
         }
+    }
+
+    private static void drawSunkShipAdjacencies(char[][] board, IFleet fleet) {
         for (IShip ship : fleet.getSunkShips()) {
             for (IPosition position : ship.getAdjacentPositions()) {
                 int row = position.getRow();
-                int col =  position.getColumn();
+                int col = position.getColumn();
+
                 if (position.isInside() && board[row][col] == '.') {
                     board[row][col] = '-';
                 }
             }
         }
-        for (IMove move : game.getAlienMoves()) {
+    }
+
+    private static void drawAlienShots(
+            char[][] board, List<IMove> moves, IFleet fleet) {
+
+        for (IMove move : moves) {
             List<IPosition> shots = move.getShots();
+
             for (IPosition shot : shots) {
                 if (!shot.isInside()) {
                     continue;
                 }
+
                 int row = shot.getRow();
                 int col = shot.getColumn();
+
                 if (fleet.shipAt(shot) != null) {
                     board[row][col] = '*';
                 } else if (board[row][col] == '-' || board[row][col] == '.') {
@@ -180,7 +207,6 @@ public class PdfReport {
                 }
             }
         }
-        return board;
     }
 
 }
