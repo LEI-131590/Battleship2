@@ -147,6 +147,7 @@ public class PdfReport {
      * Método propositadamente acoplado a várias classes para testar
      * a deteção de Feature Envy através do MethodCoupling.
      */
+    // Test Feature Envy quality gate again
     private static String generateFleetEnvyTest(IGame game) {
         StringBuilder report = new StringBuilder();
 
