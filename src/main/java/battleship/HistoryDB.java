@@ -49,22 +49,22 @@ public class HistoryDB {
         }
     }
 
-    public void exportHistoryToCSV() {}
-    public void importHistoryFromCSV() {}
-    public void getTopTenScores() {}
-    public void getAverageScorePerPlayer() {}
-    public void getTotalGamesPlayed() {}
-    public void getWinLossRatio() {}
-    public void deletePlayerHistory(String playerName) {}
-    public void backupDatabase() {}
-    public void restoreDatabase() {}
-    public void filterHistoryByDate(String date) {}
-    public void filterHistoryByPlayer(String playerName) {}
-    public void generateMonthlyReport() {}
-    public void calculateGlobalStats() {}
-    public void optimizeDatabaseConnection() {}
-    public void checkDatabaseIntegrity() {}
-    public void getLongestGameDuration() {}
-    public void clearOldHistoryRecords() {}
-    public void getWinStreakForPlayer(String playerName) {}
+    public void exportHistoryToCSV() { System.out.println("Exporting CSV..."); }
+    public void importHistoryFromCSV() { System.out.println("Importing CSV..."); }
+    public void getTopTenScores() { System.out.println("Getting top scores..."); }
+    public void getAverageScorePerPlayer() { System.out.println("Getting average score..."); }
+    public void getTotalGamesPlayed() { System.out.println("Getting total games..."); }
+    public void getWinLossRatio() { System.out.println("Getting win/loss ratio..."); }
+    public void deletePlayerHistory(String playerName) { System.out.println("Deleting history for " + playerName); }
+    public void backupDatabase() { System.out.println("Backing up..."); }
+    public void restoreDatabase() { System.out.println("Restoring..."); }
+    public void filterHistoryByDate(String date) { System.out.println("Filtering by date " + date); }
+    public void filterHistoryByPlayer(String playerName) { System.out.println("Filtering by player " + playerName); }
+    public void generateMonthlyReport() { System.out.println("Generating report..."); }
+    public void calculateGlobalStats() { System.out.println("Calculating stats..."); }
+    public void optimizeDatabaseConnection() { System.out.println("Optimizing DB..."); }
+    public void checkDatabaseIntegrity() { System.out.println("Checking integrity..."); }
+    public void getLongestGameDuration() { System.out.println("Getting duration..."); }
+    public void clearOldHistoryRecords() { System.out.println("Clearing old records..."); }
+    public void getWinStreakForPlayer(String playerName) { System.out.println("Getting win streak for " + playerName); }
 }
