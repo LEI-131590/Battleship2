@@ -7,6 +7,7 @@ import java.sql.Statement;
 
 public class HistoryDB { // Forçar leitura do Qodana
 
+
     //database file
     private static final String DB_URL = "jdbc:sqlite:battleship_history.db";
 
