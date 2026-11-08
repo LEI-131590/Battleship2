@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 
+// Comentário adicionado para o Qodana ler 129896
 public class HistoryDB {
 
     //database file
