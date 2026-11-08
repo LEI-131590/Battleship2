@@ -1,9 +1,11 @@
 # 131590 - Catarina Barata
+version: "1.0"
+
 profile:
   base:
     name: empty
   inspections:
-    - inspection: ParameterCount
+    - inspection: MethodWithTooManyParameters
       enabled: true
       severity: WARNING
       options:
