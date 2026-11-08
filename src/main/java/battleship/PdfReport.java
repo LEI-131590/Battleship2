@@ -78,6 +78,7 @@ public class PdfReport {
         document.add(new Paragraph("# = Navio; * = Tiro certeiro; " + "o = Tiro na agua; " + "- = Adjacente a navio afundado; " + ". = Agua", normalFont));
     }
 
+    // Provoke Feature Envy
     private static char[][] createBoard(IGame game) {
         char[][] board = new char[Game.BOARD_SIZE][Game.BOARD_SIZE];
         for (int i = 0; i < Game.BOARD_SIZE; i++) {
