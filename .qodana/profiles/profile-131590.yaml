@@ -1,0 +1,10 @@
+# 131590 - Catarina Barata
+profile:
+  base:
+    name: empty
+  inspections:
+    - inspection: ParameterCount
+      enabled: true
+      severity: WARNING
+      options:
+        m_limit: 4
