@@ -1,0 +1,30 @@
+
+# 131590 Catarina Barata
+name: Checkstyle Quality Gate 131590
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  checkstyle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Run Checkstyle
+        uses: dbelyaev/action-checkstyle@v3
+        with:
+          level: 'error'
+          checkstyle_config: 'Checkstyle/checkstyle-131590.xml'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
