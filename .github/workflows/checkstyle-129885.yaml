@@ -1,0 +1,27 @@
+# 129885 - Jessica Chen
+name: Checkstyle ParameterName Gate 129885
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  checkstyle-129885:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Checkstyle
+        uses: dbelyaev/action-checkstyle@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          checkstyle_config: checkstyle-129885.xml
+          reporter: github-pr-check
+          level: error
+          fail_level: error
