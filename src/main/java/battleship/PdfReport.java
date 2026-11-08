@@ -78,7 +78,6 @@ public class PdfReport {
         document.add(new Paragraph("# = Navio; * = Tiro certeiro; " + "o = Tiro na agua; " + "- = Adjacente a navio afundado; " + ". = Agua", normalFont));
     }
 
-    // Provoke Feature Envy
     private static char[][] createBoard(IGame game) {
         char[][] board = new char[Game.BOARD_SIZE][Game.BOARD_SIZE];
         for (int i = 0; i < Game.BOARD_SIZE; i++) {
@@ -141,6 +140,47 @@ public class PdfReport {
             }
         }
         table.addCell(cell);
+    }
+
+    // Provoke Feature Envy
+    private static char[][] createBoardFeatureEnvyTest(IGame game) {
+        char[][] board = new char[Game.BOARD_SIZE][Game.BOARD_SIZE];
+        for (int i = 0; i < Game.BOARD_SIZE; i++) {
+            for (int j = 0; j < Game.BOARD_SIZE; j++) {
+                board[i][j] = 'F';
+            }
+        }
+        IFleet fleet = game.getMyFleet();
+        for (IShip ship : fleet.getShips()) {
+            for (IPosition position : ship.getPositions()) {
+                board[position.getRow()][position.getColumn()] = 'E';
+            }
+        }
+        for (IShip ship : fleet.getSunkShips()) {
+            for (IPosition position : ship.getAdjacentPositions()) {
+                int row = position.getRow();
+                int col =  position.getColumn();
+                if (position.isInside() && board[row][col] == '.') {
+                    board[row][col] = '-';
+                }
+            }
+        }
+        for (IMove move : game.getAlienMoves()) {
+            List<IPosition> shots = move.getShots();
+            for (IPosition shot : shots) {
+                if (!shot.isInside()) {
+                    continue;
+                }
+                int row = shot.getRow();
+                int col = shot.getColumn();
+                if (fleet.shipAt(shot) != null) {
+                    board[row][col] = '*';
+                } else if (board[row][col] == '-' || board[row][col] == '.') {
+                    board[row][col] = 'o';
+                }
+            }
+        }
+        return board;
     }
 
 }
