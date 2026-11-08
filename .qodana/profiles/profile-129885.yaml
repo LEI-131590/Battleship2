@@ -9,4 +9,4 @@ profile:
       options:
         m_includeJavaClasses: false
         m_includeLibraryClasses: false
-        m_limit: 10
+        m_limit: 3
