@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 
+// Comentário adicionado para o Qodana ler 129896
 public class HistoryDB {
 
     //database file
@@ -13,7 +14,7 @@ public class HistoryDB {
     /**
      * Creates the database and table if they do not exist
      */
-    public static void initializeDatabase() {
+    public void initializeDatabase() {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
 
@@ -32,7 +33,7 @@ public class HistoryDB {
     /**
      * Saves the move coordinates and the result into the table.
      */
-    public static void saveMove(int moveNumber, String coordinates, String jsonResult) {
+    public void saveMove(int moveNumber, String coordinates, String jsonResult) {
         String sql = "INSERT INTO moves (move_number, coordinates, json_result) VALUES (?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -47,4 +48,88 @@ public class HistoryDB {
             System.err.println("Error saving move: " + e.getMessage());
         }
     }
+
+    public void exportHistoryToCSV() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c);
+    }
+    
+    public void importHistoryFromCSV() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c);
+    }
+    
+    public void getTopTenScores() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c);}
+    
+    public void getAverageScorePerPlayer() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c);}
+    
+    public void getTotalGamesPlayed() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    
+    public void getWinLossRatio() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    
+    public void deletePlayerHistory(String playerName) { int a = 1;
+         int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    
+    public void backupDatabase() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    public void restoreDatabase() { int a = 1;
+         int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    public void filterHistoryByDate(String date) { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    public void filterHistoryByPlayer(String playerName) { int a = 1;
+      int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    public void generateMonthlyReport() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    public void calculateGlobalStats() { int a = 1;
+        int b = 2;
+            int c = a + b;
+        System.out.println("O resultado é " + c); }
+    public void optimizeDatabaseConnection() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    public void checkDatabaseIntegrity() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    public void getLongestGameDuration() {
+        int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c);
+    }
+    public void clearOldHistoryRecords() { int a = 1;
+        int b = 2;
+          int c = a + b;
+        System.out.println("O resultado é " + c);}
+     public void getWinStreakForPlayer(String playerName) { int a = 1;
+         int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
 }
