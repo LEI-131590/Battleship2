@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 
-public class HistoryDB {
+public class HistoryDB { // Forçar leitura do Qodana
 
     //database file
     private static final String DB_URL = "jdbc:sqlite:battleship_history.db";
