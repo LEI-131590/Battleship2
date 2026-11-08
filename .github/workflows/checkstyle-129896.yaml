@@ -1,0 +1,19 @@
+# 129896 - Lara Fernandes
+name: Checkstyle ConstantName 129896
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  checkstyle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run Checkstyle
+        uses: reviewdog/action-checkstyle@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          checkstyle_config: checkstyle-129896.xml
+          reporter: github-pr-check
+          fail_on_error: true
