@@ -18,12 +18,12 @@ public class Board extends Application {
     private static final int BOARD_SIZE = 10;
     private final char[] rows = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'};
 
-    // Static variables too share the game state with the graphical interface
+    // Static variables to share the game state with the graphical interface
     public static IFleet currentFleet;
     public static List<IMove> currentMoves;
     public static Game currentGame;
 
-    // Control flag to handle JavaFX lifecycle across multiple calls
+    // Control flag to handle JavaFX lifecycle acrosss multiple calls
     private static boolean isJavaFXStarted = false;
 
     @Override
