@@ -59,7 +59,7 @@ public class Fleet implements IFleet
 	 */
 	public Fleet()
     {
-	ships = new ArrayList<>();
+		ships = new ArrayList<>();
     }
 
 	/**

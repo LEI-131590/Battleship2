@@ -23,7 +23,7 @@ public class Board extends Application {
     public static List<IMove> currentMoves;
     public static Game currentGame;
 
-    // Control flag to handle JavaFX lifecycle across multiple calls
+    // Control flag to handle JavaFX lifecycle acrosss multiple callss
     private static boolean isJavaFXStarted = false;
 
     @Override
