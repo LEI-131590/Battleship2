@@ -10,7 +10,7 @@ permissions:
   checks: write
   pull-requests: write
 jobs:
-  qodana:
+  qodana_129896:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,6 +19,6 @@ jobs:
           fetch-depth: 0
       - uses: JetBrains/qodana-action@v2026.2
         with:
-          args: --config qodana-129896.yaml
+          args: --config qodana-129896.yaml 
           use-annotations: true
           post-pr-comment: true
