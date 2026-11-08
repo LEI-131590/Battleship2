@@ -14,7 +14,7 @@ public class HistoryDB {
     /**
      * Creates the database and table if they do not exist
      */
-    public static void initializeDatabase() {
+    public void initializeDatabase() {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
 
@@ -33,7 +33,7 @@ public class HistoryDB {
     /**
      * Saves the move coordinates and the result into the table.
      */
-    public static void saveMove(int moveNumber, String coordinates, String jsonResult) {
+    public void saveMove(int moveNumber, String coordinates, String jsonResult) {
         String sql = "INSERT INTO moves (move_number, coordinates, json_result) VALUES (?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -49,22 +49,87 @@ public class HistoryDB {
         }
     }
 
-    public void exportHistoryToCSV() { System.out.println("Exporting CSV..."); }
-    public void importHistoryFromCSV() { System.out.println("Importing CSV..."); }
-    public void getTopTenScores() { System.out.println("Getting top scores..."); }
-    public void getAverageScorePerPlayer() { System.out.println("Getting average score..."); }
-    public void getTotalGamesPlayed() { System.out.println("Getting total games..."); }
-    public void getWinLossRatio() { System.out.println("Getting win/loss ratio..."); }
-    public void deletePlayerHistory(String playerName) { System.out.println("Deleting history for " + playerName); }
-    public void backupDatabase() { System.out.println("Backing up..."); }
-    public void restoreDatabase() { System.out.println("Restoring..."); }
-    public void filterHistoryByDate(String date) { System.out.println("Filtering by date " + date); }
-    public void filterHistoryByPlayer(String playerName) { System.out.println("Filtering by player " + playerName); }
-    public void generateMonthlyReport() { System.out.println("Generating report..."); }
-    public void calculateGlobalStats() { System.out.println("Calculating stats..."); }
-    public void optimizeDatabaseConnection() { System.out.println("Optimizing DB..."); }
-    public void checkDatabaseIntegrity() { System.out.println("Checking integrity..."); }
-    public void getLongestGameDuration() { System.out.println("Getting duration..."); }
-    public void clearOldHistoryRecords() { System.out.println("Clearing old records..."); }
-    public void getWinStreakForPlayer(String playerName) { System.out.println("Getting win streak for " + playerName); }
+    public void exportHistoryToCSV() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c);
+    }
+    
+    public void importHistoryFromCSV() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c);
+    }
+    
+    public void getTopTenScores() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c);}
+    
+    public void getAverageScorePerPlayer() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c);}
+    
+    public void getTotalGamesPlayed() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    
+    public void getWinLossRatio() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    
+    public void deletePlayerHistory(String playerName) { int a = 1;
+         int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    
+    public void backupDatabase() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    public void restoreDatabase() { int a = 1;
+         int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    public void filterHistoryByDate(String date) { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    public void filterHistoryByPlayer(String playerName) { int a = 1;
+      int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    public void generateMonthlyReport() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    public void calculateGlobalStats() { int a = 1;
+        int b = 2;
+            int c = a + b;
+        System.out.println("O resultado é " + c); }
+    public void optimizeDatabaseConnection() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    public void checkDatabaseIntegrity() { int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
+    public void getLongestGameDuration() {
+        int a = 1;
+        int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c);
+    }
+    public void clearOldHistoryRecords() { int a = 1;
+        int b = 2;
+          int c = a + b;
+        System.out.println("O resultado é " + c);}
+     public void getWinStreakForPlayer(String playerName) { int a = 1;
+         int b = 2;
+        int c = a + b;
+        System.out.println("O resultado é " + c); }
 }
