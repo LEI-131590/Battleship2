@@ -26,5 +26,5 @@ jobs:
         uses: dbelyaev/action-checkstyle@v3
         with:
           level: 'error'
-          checkstyle_config: 'Checkstyle/checkstyle-131590.xml'
+          checkstyle_config: 'checkstyle-131590.xml'
           github_token: ${{ secrets.GITHUB_TOKEN }}
