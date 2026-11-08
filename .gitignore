@@ -1,1 +1,3 @@
 /target/
+/battleship_history.db
+/.idea/compiler.xml
