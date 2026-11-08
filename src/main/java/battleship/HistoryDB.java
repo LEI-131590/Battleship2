@@ -47,4 +47,23 @@ public class HistoryDB {
             System.err.println("Error saving move: " + e.getMessage());
         }
     }
+
+    public void exportHistoryToCSV() {}
+    public void importHistoryFromCSV() {}
+    public void getTopTenScores() {}
+    public void getAverageScorePerPlayer() {}
+    public void getTotalGamesPlayed() {}
+    public void getWinLossRatio() {}
+    public void deletePlayerHistory(String playerName) {}
+    public void backupDatabase() {}
+    public void restoreDatabase() {}
+    public void filterHistoryByDate(String date) {}
+    public void filterHistoryByPlayer(String playerName) {}
+    public void generateMonthlyReport() {}
+    public void calculateGlobalStats() {}
+    public void optimizeDatabaseConnection() {}
+    public void checkDatabaseIntegrity() {}
+    public void getLongestGameDuration() {}
+    public void clearOldHistoryRecords() {}
+    public void getWinStreakForPlayer(String playerName) {}
 }
