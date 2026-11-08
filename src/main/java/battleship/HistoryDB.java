@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 
-public class HistoryDB { // Forçar leitura do Qodana
+public class HistoryDB { 
 
     //database file
     private static final String DB_URL = "jdbc:sqlite:battleship_history.db";
@@ -14,7 +14,7 @@ public class HistoryDB { // Forçar leitura do Qodana
     /**
      * Creates the database and table if they do not exist
      */
-    public void initializeDatabase() {
+    public static void initializeDatabase() {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
 
@@ -33,7 +33,7 @@ public class HistoryDB { // Forçar leitura do Qodana
     /**
      * Saves the move coordinates and the result into the table.
      */
-    public void saveMove(int moveNumber, String coordinates, String jsonResult) {
+    public static void saveMove(int moveNumber, String coordinates, String jsonResult) {
         String sql = "INSERT INTO moves (move_number, coordinates, json_result) VALUES (?, ?, ?)";
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
@@ -48,88 +48,4 @@ public class HistoryDB { // Forçar leitura do Qodana
             System.err.println("Error saving move: " + e.getMessage());
         }
     }
-
-    public void exportHistoryToCSV() { int a = 1;
-        int b = 2;
-        int c = a + b;
-        System.out.println("O resultado é " + c);
-    }
-    
-    public void importHistoryFromCSV() { int a = 1;
-        int b = 2;
-        int c = a + b;
-        System.out.println("O resultado é " + c);
-    }
-    
-    public void getTopTenScores() { int a = 1;
-        int b = 2;
-        int c = a + b;
-        System.out.println("O resultado é " + c);}
-    
-    public void getAverageScorePerPlayer() { int a = 1;
-        int b = 2;
-        int c = a + b;
-        System.out.println("O resultado é " + c);}
-    
-    public void getTotalGamesPlayed() { int a = 1;
-        int b = 2;
-        int c = a + b;
-        System.out.println("O resultado é " + c); }
-    
-    public void getWinLossRatio() { int a = 1;
-        int b = 2;
-        int c = a + b;
-        System.out.println("O resultado é " + c); }
-    
-    public void deletePlayerHistory(String playerName) { int a = 1;
-         int b = 2;
-        int c = a + b;
-        System.out.println("O resultado é " + c); }
-    
-    public void backupDatabase() { int a = 1;
-        int b = 2;
-        int c = a + b;
-        System.out.println("O resultado é " + c); }
-    public void restoreDatabase() { int a = 1;
-         int b = 2;
-        int c = a + b;
-        System.out.println("O resultado é " + c); }
-    public void filterHistoryByDate(String date) { int a = 1;
-        int b = 2;
-        int c = a + b;
-        System.out.println("O resultado é " + c); }
-    public void filterHistoryByPlayer(String playerName) { int a = 1;
-      int b = 2;
-        int c = a + b;
-        System.out.println("O resultado é " + c); }
-    public void generateMonthlyReport() { int a = 1;
-        int b = 2;
-        int c = a + b;
-        System.out.println("O resultado é " + c); }
-    public void calculateGlobalStats() { int a = 1;
-        int b = 2;
-            int c = a + b;
-        System.out.println("O resultado é " + c); }
-    public void optimizeDatabaseConnection() { int a = 1;
-        int b = 2;
-        int c = a + b;
-        System.out.println("O resultado é " + c); }
-    public void checkDatabaseIntegrity() { int a = 1;
-        int b = 2;
-        int c = a + b;
-        System.out.println("O resultado é " + c); }
-    public void getLongestGameDuration() {
-        int a = 1;
-        int b = 2;
-        int c = a + b;
-        System.out.println("O resultado é " + c);
-    }
-    public void clearOldHistoryRecords() { int a = 1;
-        int b = 2;
-          int c = a + b;
-        System.out.println("O resultado é " + c);}
-     public void getWinStreakForPlayer(String playerName) { int a = 1;
-         int b = 2;
-        int c = a + b;
-        System.out.println("O resultado é " + c); }
 }
