@@ -142,4 +142,91 @@ public class PdfReport {
         table.addCell(cell);
     }
 
+    /**
+     * Analisa detalhadamente a frota, os navios e os movimentos inimigos.
+     * Método propositadamente acoplado a várias classes para testar
+     * a deteção de Feature Envy através do MethodCoupling.
+     */
+    private static String generateFleetEnvyTest(IGame game) {
+        StringBuilder report = new StringBuilder();
+
+        IFleet fleet = game.getMyFleet();
+
+        report.append("FLEET ANALYSIS\n");
+        report.append("Board size: ").append(Game.BOARD_SIZE).append("\n");
+
+        int totalPositions = 0;
+        int totalAdjacentPositions = 0;
+        int floatingShips = 0;
+        int sunkShips = 0;
+        int totalShots = 0;
+        int hits = 0;
+        int misses = 0;
+
+        for (IShip ship : fleet.getShips()) {
+            List<IPosition> positions = ship.getPositions();
+            List<IPosition> adjacentPositions = ship.getAdjacentPositions();
+
+            totalPositions += positions.size();
+            totalAdjacentPositions += adjacentPositions.size();
+
+            if (ship.stillFloating()) {
+                floatingShips++;
+            } else {
+                sunkShips++;
+            }
+
+            report.append("\nShip positions: ");
+
+            for (IPosition position : positions) {
+                report.append("(")
+                        .append(position.getRow())
+                        .append(", ")
+                        .append(position.getColumn())
+                        .append(") ");
+
+                if (!position.isInside()) {
+                    report.append("[OUTSIDE BOARD]");
+                }
+            }
+
+            report.append("\nAdjacent positions: ");
+
+            for (IPosition position : adjacentPositions) {
+                report.append("(")
+                        .append(position.getRow())
+                        .append(", ")
+                        .append(position.getColumn())
+                        .append(") ");
+            }
+
+            report.append("\nFloating: ")
+                    .append(ship.stillFloating())
+                    .append("\n");
+        }
+
+        for (IMove move : game.getAlienMoves()) {
+            for (IPosition shot : move.getShots()) {
+                totalShots++;
+
+                if (shot.isInside() && fleet.shipAt(shot) != null) {
+                    hits++;
+                } else {
+                    misses++;
+                }
+            }
+        }
+
+        report.append("\nTotal ships: ").append(fleet.getShips().size());
+        report.append("\nFloating ships: ").append(floatingShips);
+        report.append("\nSunk ships: ").append(sunkShips);
+        report.append("\nTotal positions: ").append(totalPositions);
+        report.append("\nAdjacent positions: ").append(totalAdjacentPositions);
+        report.append("\nTotal shots: ").append(totalShots);
+        report.append("\nHits: ").append(hits);
+        report.append("\nMisses: ").append(misses);
+
+        return report.toString();
+    }
+
 }
