@@ -3,12 +3,7 @@ version: "1.0"
 linter: jetbrains/qodana-jvm-community:2026.2
 projectJDK: "21"
 profile:
-  name: empty
-  inspections:
-    - inspection: ClassWithTooManyMethods
-      enabled: true
-      options:
-        m_limit: 15
+  path: qodana/profiles/profile-129896.yaml
 failureConditions:
   severityThresholds:
     any: 0
