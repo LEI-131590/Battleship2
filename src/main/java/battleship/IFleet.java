@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package battleship;
 
@@ -64,4 +64,6 @@ public interface IFleet
 	 * Print status.
 	 */
 	void printStatus();
+
+	String generateFleetAnalysis();
 }

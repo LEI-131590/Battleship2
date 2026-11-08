@@ -462,4 +462,31 @@ public class Game implements IGame
 			System.out.println("| Maldito sejas, Java Sparrow, eu voltarei, glub glub glub ... |");
 			System.out.println("+--------------------------------------------------------------+");
 	}
+
+	@Override
+	public String generateShotAnalysis() {
+		StringBuilder report = new StringBuilder();
+
+		int totalShots = 0;
+		int hits = 0;
+		int misses = 0;
+
+		for (IMove move : alienMoves) {
+			for (IPosition shot : move.getShots()) {
+				totalShots++;
+
+				if (shot.isInside() && myFleet.shipAt(shot) != null) {
+					hits++;
+				} else {
+					misses++;
+				}
+			}
+		}
+
+		report.append("Total shots: ").append(totalShots);
+		report.append("\nHits: ").append(hits);
+		report.append("\nMisses: ").append(misses);
+
+		return report.toString();
+	}
 }

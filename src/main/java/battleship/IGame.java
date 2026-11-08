@@ -120,4 +120,6 @@ public interface IGame
 	void printAlienBoard(boolean show_shots, boolean show_legend);
 
 	void over();
+
+	String generateShotAnalysis();
 }

@@ -260,4 +260,36 @@ public class Fleet implements IFleet
     {
 		printShips(ships);
     }
+
+	@Override
+	public String generateFleetAnalysis() {
+		StringBuilder report = new StringBuilder();
+
+		int totalPositions = 0;
+		int totalAdjacentPositions = 0;
+		int floatingShips = 0;
+		int sunkShips = 0;
+
+		for (IShip ship : ships) {
+			List<IPosition> positions = ship.getPositions();
+			List<IPosition> adjacent = ship.getAdjacentPositions();
+
+			totalPositions += positions.size();
+			totalAdjacentPositions += adjacent.size();
+
+			if (ship.stillFloating()) {
+				floatingShips++;
+			} else {
+				sunkShips++;
+			}
+		}
+
+		report.append("Total ships: ").append(ships.size());
+		report.append("\nFloating ships: ").append(floatingShips);
+		report.append("\nSunk ships: ").append(sunkShips);
+		report.append("\nTotal positions: ").append(totalPositions);
+		report.append("\nAdjacent positions: ").append(totalAdjacentPositions);
+
+		return report.toString();
+	}
 }
