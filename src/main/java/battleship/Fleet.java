@@ -51,7 +51,7 @@ public class Fleet implements IFleet
 	/**
 	 * The Ships.
 	 */
-	private final List<IShip> Ships;
+	private final List<IShip> ships;
 
 	// -----------------------------------------------------ge
 	/**
@@ -59,7 +59,7 @@ public class Fleet implements IFleet
 	 */
 	public Fleet()
     {
-		Ships = new ArrayList<>();
+		ships = new ArrayList<>();
     }
 
 	/**
@@ -70,7 +70,7 @@ public class Fleet implements IFleet
 	@Override
     public List<IShip> getShips()
     {
-	return Ships;
+	return ships;
     }
 	
 	/**
@@ -90,9 +90,9 @@ public class Fleet implements IFleet
 		assert s != null;
 
 		boolean result = false;
-		if ((Ships.size() <= FLEET_SIZE) && (s.isInsideBoard()) && (!colisionRisk(s)))
+		if ((ships.size() <= FLEET_SIZE) && (s.isInsideBoard()) && (!colisionRisk(s)))
 		{
-			Ships.add(s);
+			ships.add(s);
 			result = true;
 		}
 		return result;
@@ -115,7 +115,7 @@ public class Fleet implements IFleet
 		assert category != null;
 
 		List<IShip> shipsLike = new ArrayList<IShip>();
-		for (IShip s : Ships)
+		for (IShip s : ships)
 			if (s.getCategory().equals(category))
 				shipsLike.add(s);
 
@@ -136,7 +136,7 @@ public class Fleet implements IFleet
     public List<IShip> getFloatingShips()
     {
 		List<IShip> floatingShips = new ArrayList<IShip>();
-		for (IShip s : Ships)
+		for (IShip s : ships)
 			if (s.stillFloating())
 				floatingShips.add(s);
 
@@ -157,7 +157,7 @@ public class Fleet implements IFleet
 	public List<IShip> getSunkShips()
 	{
 		List<IShip> sunkShips = new ArrayList<IShip>();
-		for (IShip s : Ships)
+		for (IShip s : ships)
 			if (!s.stillFloating())
 				sunkShips.add(s);
 
@@ -180,7 +180,7 @@ public class Fleet implements IFleet
     {
 		assert pos != null;
 
-		for (IShip ship : Ships)
+		for (IShip ship : ships)
 			if (ship.occupies(pos))
 				return ship;
 		return null;
@@ -196,9 +196,9 @@ public class Fleet implements IFleet
     {
 		assert s != null;
 
-		for (int i = 0; i < Ships.size(); i++)
+		for (int i = 0; i < ships.size(); i++)
 		{
-			if (Ships.get(i).tooCloseTo(s))
+			if (ships.get(i).tooCloseTo(s))
 				return true;
 		}
 		return false;
@@ -258,6 +258,6 @@ public class Fleet implements IFleet
 	 */
 	void printAllShips()
     {
-		printShips(Ships);
+		printShips(ships);
     }
 }
