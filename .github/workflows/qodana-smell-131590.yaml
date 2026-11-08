@@ -10,7 +10,7 @@ permissions:
   checks: write
   pull-requests: write
 jobs:
-  qodana:
+  qodana_131590:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
