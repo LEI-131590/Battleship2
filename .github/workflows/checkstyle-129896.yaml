@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Run Checkstyle
-        uses: reviewdog/action-checkstyle@v1
+        uses: reviewdog/action-checkstyle@v1.44.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           checkstyle_config: checkstyle-129896.xml
