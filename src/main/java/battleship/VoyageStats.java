@@ -161,8 +161,8 @@ public class VoyageStats {
         return Destination.fromPoints(getPoints());
     }
 
-    /** Metodo com nome fora da convenção, para testar o quality gate do Checkstyle */
-    public int Calcular_Pontos() {
+    /** Metodo que devolve a pontuação total. */
+    public int calcularPontos() {
         return getPoints();
     }
 
