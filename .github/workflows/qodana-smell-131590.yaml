@@ -20,6 +20,6 @@ jobs:
 
       - uses: JetBrains/qodana-action@v2026.2
         with:
-          args: --profile-path profile-131590.yaml
+          args: --config qodana-131590.yaml
           use-annotations: true
           post-pr-comment: true
