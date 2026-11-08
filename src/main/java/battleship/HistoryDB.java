@@ -7,7 +7,6 @@ import java.sql.Statement;
 
 public class HistoryDB { // Forçar leitura do Qodana
 
-    public static final int maxShips = 5;
 
     //database file
     private static final String DB_URL = "jdbc:sqlite:battleship_history.db";
