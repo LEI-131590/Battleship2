@@ -162,6 +162,53 @@ public class VoyageStats {
     }
 
     /**
+     * Gera o diário de bordo da viagem em texto.
+     * (Método propositadamente longo, para testar o quality gate.)
+     *
+     * @return o diário de bordo formatado
+     */
+    public String buildVoyageReport() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("==============================\n");
+        sb.append("   DIÁRIO DE BORDO DA VIAGEM\n");
+        sb.append("==============================\n");
+        sb.append("Tempo de viagem: ");
+        sb.append(getFormattedTime());
+        sb.append("\n");
+        sb.append("Rajadas disparadas: ");
+        sb.append(getVolleys());
+        sb.append("\n");
+        sb.append("Tiros válidos: ");
+        sb.append(validShots);
+        sb.append("\n");
+        sb.append("Acertos: ");
+        sb.append(hits);
+        sb.append("\n");
+        sb.append("Pontaria: ");
+        sb.append(Math.round(getAccuracy() * 100));
+        sb.append("%\n");
+        sb.append("------------------------------\n");
+        sb.append("Pontos de pontaria: ");
+        sb.append(getAccuracyPoints());
+        sb.append("\n");
+        sb.append("Pontos de eficiência: ");
+        sb.append(getEfficiencyPoints());
+        sb.append("\n");
+        sb.append("Pontos de rapidez: ");
+        sb.append(getSpeedPoints());
+        sb.append("\n");
+        sb.append("------------------------------\n");
+        sb.append("Pontuação total: ");
+        sb.append(getPoints());
+        sb.append("\n");
+        sb.append("Destino alcançado: ");
+        sb.append(getDestination().getDisplayName());
+        sb.append("\n");
+        sb.append("==============================\n");
+        return sb.toString();
+    }
+
+    /**
      * Mostra no terminal o resumo da viagem.
      * (Mais tarde, este resumo passa a aparecer numa janela com a caravela animada.)
      */
