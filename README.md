@@ -138,6 +138,19 @@ mvn test
 > [!TIP]
 > Use the `-Dtest=ClassName` flag to run specific test suites during development.
 
+
+### Execução automática dos testes (GitHub Actions)
+
+![Testes unitários](https://github.com/LEI-131590/Battleship2/actions/workflows/maven.yml/badge.svg)
+
+Os testes unitários correm automaticamente no GitHub Actions, através do workflow `.github/workflows/maven.yml` ("Testes unitários (Maven)").
+
+- **Quando corre:** em cada push para qualquer ramo (por exemplo, os ramos `UnitTests_XXXXXX`) e em cada pull request para o `main`.
+- **O que faz:** prepara uma máquina Ubuntu com o JDK 21 (a versão definida no `pom.xml`), compila o projeto e executa `mvn -B test`. Se algum teste falhar, a execução fica a vermelho.
+- **Onde ver o resultado:** no separador **Actions** do repositório, ou na caixa de checks de cada pull request.
+
+O workflow foi adaptado a partir do template "Java with Maven" do GitHub.
+
 ---
 
 ## 🤝 Contributing
