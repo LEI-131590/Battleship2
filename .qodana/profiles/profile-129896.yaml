@@ -1,9 +1,8 @@
 # 129896 - Lara Fernandes
-profile:
-  base:
-    name: empty
-  inspections:
-    - inspection: ClassWithTooManyMethods
-      enabled: true
-      options:
-        m_limit: 15
+name: "Too Many Methods 129896"
+baseProfile: empty
+inspections:
+  - inspection: ClassWithTooManyMethods
+    enabled: true
+    options:
+      m_limit: 15
