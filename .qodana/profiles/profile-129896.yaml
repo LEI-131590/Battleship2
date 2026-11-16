@@ -1,7 +1,5 @@
 # 129896 - Lara Fernandes
-profile:
-  base:
-    name: empty
+  base: empty
   inspections:
     - inspection: ClassWithTooManyMethods
       enabled: true
