@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test class for class RankingBoard.
- * Author: ${user.name}
+ * Author: Beatriz
  * Date: 2026-11-20 04:00
  * Cyclomatic Complexity:
  * - RankingBoard(): 1
