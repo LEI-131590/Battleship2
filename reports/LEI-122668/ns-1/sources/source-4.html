@@ -1,0 +1,336 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > VoyageStats</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">battleship</a>
+</div>
+
+<h1>Coverage Summary for Class: VoyageStats (battleship)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VoyageStats</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (36/36)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">VoyageStats$Destination</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (16/16)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (19/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (52/52)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package battleship;
+&nbsp;
+&nbsp;import org.apache.commons.lang3.time.DurationFormatUtils;
+&nbsp;import org.apache.commons.lang3.time.StopWatch;
+&nbsp;
+&nbsp;/**
+&nbsp; * Acompanha o desempenho do jogador numa partida e calcula até onde chegou
+&nbsp; * a sua viagem na Rota da Índia (issue #6).
+&nbsp; *
+&nbsp; * &lt;p&gt;A pontuação vai de 0 a 1000 e tem três componentes:&lt;/p&gt;
+&nbsp; * &lt;ul&gt;
+&nbsp; *   &lt;li&gt;&lt;b&gt;Pontaria&lt;/b&gt; (até 400): percentagem de tiros válidos que acertaram num navio;&lt;/li&gt;
+&nbsp; *   &lt;li&gt;&lt;b&gt;Eficiência&lt;/b&gt; (até 400): quantas rajadas foram precisas, comparado com o mínimo possível (9);&lt;/li&gt;
+&nbsp; *   &lt;li&gt;&lt;b&gt;Rapidez&lt;/b&gt; (até 200): tempo total da partida.&lt;/li&gt;
+&nbsp; * &lt;/ul&gt;
+&nbsp; */
+<b class="fc">&nbsp;public class VoyageStats {</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Destinos da Rota da Índia, por ordem de chegada.
+&nbsp;     * Cada destino é alcançado a partir de uma pontuação mínima.
+&nbsp;     */
+<b class="fc">&nbsp;    public enum Destination {</b>
+<b class="fc">&nbsp;        CEUTA(&quot;Ceuta&quot;, 0),</b>
+<b class="fc">&nbsp;        MADEIRA(&quot;Madeira&quot;, 280),</b>
+<b class="fc">&nbsp;        CABO_BOJADOR(&quot;Cabo Bojador&quot;, 400),</b>
+<b class="fc">&nbsp;        BOA_ESPERANCA(&quot;Cabo da Boa Esperança&quot;, 500),</b>
+<b class="fc">&nbsp;        INDIA(&quot;Índia&quot;, 600);</b>
+&nbsp;
+&nbsp;        private final String displayName;
+&nbsp;        private final int minPoints;
+&nbsp;
+<b class="fc">&nbsp;        Destination(String displayName, int minPoints) {</b>
+<b class="fc">&nbsp;            this.displayName = displayName;</b>
+<b class="fc">&nbsp;            this.minPoints = minPoints;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /** @return o nome do destino tal como aparece ao jogador */
+&nbsp;        public String getDisplayName() {
+<b class="fc">&nbsp;            return displayName;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /** @return a pontuação mínima para alcançar este destino */
+&nbsp;        public int getMinPoints() {
+<b class="fc">&nbsp;            return minPoints;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        /**
+&nbsp;         * Devolve o destino mais distante que a pontuação permite alcançar.
+&nbsp;         *
+&nbsp;         * @param points a pontuação da partida
+&nbsp;         * @return o destino alcançado
+&nbsp;         */
+&nbsp;        public static Destination fromPoints(int points) {
+<b class="fc">&nbsp;            Destination reached = CEUTA;</b>
+<b class="fc">&nbsp;            for (Destination d : values()) {</b>
+<b class="fc">&nbsp;                if (points &gt;= d.minPoints) {</b>
+<b class="fc">&nbsp;                    reached = d;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            return reached;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    // Pesos de cada componente da pontuação (somam 1000)
+&nbsp;    private static final int MAX_ACCURACY_POINTS = 400;
+&nbsp;    private static final int MAX_EFFICIENCY_POINTS = 400;
+&nbsp;    private static final int MAX_SPEED_POINTS = 200;
+&nbsp;
+&nbsp;    // A frota ocupa 25 posições: o melhor jogo possível são 9 rajadas (27 tiros)
+&nbsp;    private static final int BEST_POSSIBLE_VOLLEYS = 9;
+&nbsp;
+&nbsp;    // Até 2 minutos ganha a rapidez máxima; a partir de 15 minutos não ganha nada
+&nbsp;    private static final long FULL_SPEED_MILLIS = 2 * 60 * 1000L;
+&nbsp;    private static final long ZERO_SPEED_MILLIS = 15 * 60 * 1000L;
+&nbsp;
+<b class="fc">&nbsp;    private final StopWatch stopWatch = new StopWatch();</b>
+&nbsp;    private int volleys;
+&nbsp;    private int validShots;
+&nbsp;    private int hits;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Começa (ou recomeça) a contar o tempo de uma nova partida.
+&nbsp;     * Deve ser chamado quando a frota é gerada ou carregada.
+&nbsp;     */
+&nbsp;    public void start() {
+<b class="fc">&nbsp;        stopWatch.reset();</b>
+<b class="fc">&nbsp;        stopWatch.start();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Para o cronómetro e guarda os números finais da partida.
+&nbsp;     * Deve ser chamado quando o último navio é afundado.
+&nbsp;     *
+&nbsp;     * @param game a partida que terminou
+&nbsp;     */
+&nbsp;    public void finish(IGame game) {
+<b class="fc">&nbsp;        if (stopWatch.isStarted()) {</b>
+<b class="fc">&nbsp;            stopWatch.stop();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        volleys = game.getAlienMoves().size();</b>
+<b class="fc">&nbsp;        int totalShots = volleys * Game.NUMBER_SHOTS;</b>
+<b class="fc">&nbsp;        validShots = totalShots - game.getInvalidShots() - game.getRepeatedShots();</b>
+<b class="fc">&nbsp;        hits = game.getHits();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** @return o número de rajadas disparadas */
+&nbsp;    public int getVolleys() {
+<b class="fc">&nbsp;        return volleys;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** @return a pontaria, entre 0.0 e 1.0 (tiros certeiros / tiros válidos) */
+&nbsp;    public double getAccuracy() {
+<b class="fc">&nbsp;        return validShots == 0 ? 0.0 : (double) hits / validShots;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** @return o tempo da partida em milissegundos */
+&nbsp;    public long getElapsedMillis() {
+<b class="fc">&nbsp;        return stopWatch.getTime();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** @return o tempo da partida formatado, por exemplo &quot;3m 42s&quot; */
+&nbsp;    public String getFormattedTime() {
+<b class="fc">&nbsp;        return DurationFormatUtils.formatDuration(getElapsedMillis(), &quot;m&#39;m&#39; ss&#39;s&#39;&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** @return os pontos de pontaria (0 a 400) */
+&nbsp;    public int getAccuracyPoints() {
+<b class="fc">&nbsp;        return (int) Math.round(getAccuracy() * MAX_ACCURACY_POINTS);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** @return os pontos de eficiência (0 a 400); 9 rajadas dão o máximo */
+&nbsp;    public int getEfficiencyPoints() {
+<b class="fc">&nbsp;        if (volleys == 0) {</b>
+<b class="fc">&nbsp;            return 0;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        double ratio = (double) BEST_POSSIBLE_VOLLEYS / volleys;</b>
+<b class="fc">&nbsp;        return (int) Math.round(Math.min(1.0, ratio) * MAX_EFFICIENCY_POINTS);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** @return os pontos de rapidez (0 a 200), a descer linearmente entre 2 e 15 minutos */
+&nbsp;    public int getSpeedPoints() {
+<b class="fc">&nbsp;        long t = getElapsedMillis();</b>
+<b class="fc">&nbsp;        if (t &lt;= FULL_SPEED_MILLIS) {</b>
+<b class="fc">&nbsp;            return MAX_SPEED_POINTS;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        if (t &gt;= ZERO_SPEED_MILLIS) {</b>
+<b class="fc">&nbsp;            return 0;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        double remaining = (double) (ZERO_SPEED_MILLIS - t) / (ZERO_SPEED_MILLIS - FULL_SPEED_MILLIS);</b>
+<b class="fc">&nbsp;        return (int) Math.round(remaining * MAX_SPEED_POINTS);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** @return a pontuação total da partida (0 a 1000) */
+&nbsp;    public int getPoints() {
+<b class="fc">&nbsp;        return getAccuracyPoints() + getEfficiencyPoints() + getSpeedPoints();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** @return o destino alcançado na Rota da Índia */
+&nbsp;    public Destination getDestination() {
+<b class="fc">&nbsp;        return Destination.fromPoints(getPoints());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Mostra no terminal o resumo da viagem.
+&nbsp;     * (Mais tarde, este resumo passa a aparecer numa janela com a caravela animada.)
+&nbsp;     */
+&nbsp;    public void printSummary() {
+<b class="fc">&nbsp;        System.out.println();</b>
+<b class="fc">&nbsp;        System.out.println(&quot;+------------------- ROTA DA ÍNDIA -------------------+&quot;);</b>
+<b class="fc">&nbsp;        System.out.printf(&quot;  Chegaste a: %s!%n&quot;, getDestination().getDisplayName());</b>
+<b class="fc">&nbsp;        System.out.printf(&quot;  Tempo: %s   Rajadas: %d   Pontaria: %d%%%n&quot;,</b>
+<b class="fc">&nbsp;                getFormattedTime(), getVolleys(), Math.round(getAccuracy() * 100));</b>
+<b class="fc">&nbsp;        System.out.printf(&quot;  Pontos: %d  (pontaria %d + eficiência %d + rapidez %d)%n&quot;,</b>
+<b class="fc">&nbsp;                getPoints(), getAccuracyPoints(), getEfficiencyPoints(), getSpeedPoints());</b>
+<b class="fc">&nbsp;        System.out.println(&quot;+-----------------------------------------------------+&quot;);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-11-21 13:44</div>
+</div>
+</body>
+</html>
