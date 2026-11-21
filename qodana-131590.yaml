@@ -9,3 +9,8 @@ profile:
 failureConditions:
   severityThresholds:
     any: 0
+
+exclude:
+  - name: All
+    paths:
+      - src/test
