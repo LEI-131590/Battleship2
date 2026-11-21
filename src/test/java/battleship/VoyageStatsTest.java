@@ -86,8 +86,8 @@ class VoyageStatsTest{
         @Override public List<IMove> getMyMoves() { return null; }
         @Override public int getSunkShips() { return 0; }
         @Override public int getRemainingShips() { return 0; }
-        @Override public void printMyBoard(boolean show_shots, boolean show_legend) { }
-        @Override public void printAlienBoard(boolean show_shots, boolean show_legend) { }
+        @Override public void printMyBoard(boolean showShots, boolean showLegend) { }
+        @Override public void printAlienBoard(boolean showShots, boolean showLegend) { }
         @Override public void over() { }
     }
 
