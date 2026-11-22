@@ -5,7 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 
-public class HistoryDB { // Forçar leitura do Qodana
+public class HistoryDB {
+    public static final String INSERT_MOVE_SQL = "INSERT INTO moves (move_number, coordinates, json_result) VALUES (?, ?, ?)"; // Forçar leitura do Qodana
 
     //database file
     private static final String DB_URL = "jdbc:sqlite:battleship_history.db";
@@ -33,7 +34,7 @@ public class HistoryDB { // Forçar leitura do Qodana
      * Saves the move coordinates and the result into the table.
      */
     public static void saveMove(int moveNumber, String coordinates, String jsonResult) {
-        String sql = "INSERT INTO moves (move_number, coordinates, json_result) VALUES (?, ?, ?)";
+        String sql = INSERT_MOVE_SQL;
 
         try (Connection conn = DriverManager.getConnection(DB_URL);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
