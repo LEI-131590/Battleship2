@@ -204,19 +204,7 @@ public class Game implements IGame
 			// Lê a próxima parte e constrói uma posição
 			String token = inputScanner.next();
 
-			if (token.matches("[A-Za-z]")) {
-				// Caso seja somente uma coluna ("A", "B", etc.), esperar o próximo número
-				if (inputScanner.hasNextInt()) {
-					int row = inputScanner.nextInt();
-					shots.add(new Position(token.toUpperCase().charAt(0), row));
-				} else {
-					throw new IllegalArgumentException("Posição incompleta! A coluna '" + token + "' não é seguida por uma linha.");
-				}
-			} else {
-				// Caso o token já contenha a coluna e a linha juntas (ex.: "A3")
-				Scanner singleScanner = new Scanner(token);
-				shots.add(Tasks.readClassicPosition(singleScanner));
-			}
+			shots.add(readShotPosition(token, inputScanner));
 		}
 
 		if (shots.size() != NUMBER_SHOTS) {
@@ -226,6 +214,20 @@ public class Game implements IGame
 		this.fireShots(shots);
 
 		return Game.jsonShots(shots);
+	}
+
+	private IPosition readShotPosition(String token, Scanner inputScanner) {
+		if (token.matches("[A-Za-z]")) {
+			if (inputScanner.hasNextInt()) {
+				int row = inputScanner.nextInt();
+				return new Position(token.toUpperCase().charAt(0), row);
+			} else {
+				throw new IllegalArgumentException("Posição incompleta! A coluna '" + token + "' não é seguida por uma linha.");
+			}
+		} else {
+			Scanner singleScanner = new Scanner(token);
+			return Tasks.readClassicPosition(singleScanner);
+		}
 	}
 
 	/**
