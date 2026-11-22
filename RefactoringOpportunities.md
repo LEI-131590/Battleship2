@@ -28,6 +28,11 @@ Cada membro refabrica as classes que testou na Parte 1 e o código que desenvolv
 
 | Local | Cheiro no código | Refabricação | Nº aluno |
 |---|---|---|---|
+| `PdfReport::addReportContent` | Long Method (gera as estatísticas, o tabuleiro e a legenda do relatório) | Extract Method | 129885 |
+| `PdfReport::addCell` | Magic Number (altura da célula definida pelo valor 30f) | Introduce Constant | 129885 |
+| `Position::isInside` | Complex Conditional (várias condições para verificar os limites das coordenadas) | Introduce Variable | 129885 |
+| `Move::processEnemyFire` | Complex Conditional (condições aninhadas na construção da mensagem de resultados dos tiros) | Decompose Conditional | 129885 |
+| `IFleet::getShipsLike`/`Fleet::getShipsLike` | Mysterious Name (nome pouco claro sobre o critério utilizado para selecionar os navios) | Rename | 129885 |
 
 ## Catarina
 
