@@ -98,7 +98,7 @@ public class Tasks {
 							int position = ranking.add(name, voyage);
 							System.out.println("Ficaste em " + position + "º lugar!");
 							ranking.printTop();
-							VoyageWindow.show(voyage, ranking, name, position);
+							VoyageWindow.show(new VoyageWindow.VoyageResult(voyage, ranking, name, position));
 							game.over();
 						}
 					}
@@ -132,16 +132,7 @@ public class Tasks {
                     menuHelp();
                     break;
 				case PDF:
-					if (game != null) {
-						try {
-							PdfReport.export(game, Paths.get("relatorio-battleship.pdf"));
-							System.out.println("Relatorio PDF criado com sucesso: " + "relatorio-battleship.pdf");
-						} catch (IOException | DocumentException e) {
-							System.err.println("Erro ao criar o relatorio PDF: " + e.getMessage());
-						}
-					} else {
-						System.out.println("Crie ou carregue uma frota primeiro.");
-					}
+					exportPdfReport(game, "relatorio-battleship.pdf");
 					break;
 				default:
 					System.out.println("Que comando é esse??? Repete ...");
@@ -150,6 +141,19 @@ public class Tasks {
 			command = in.next();
 		}
 		System.out.println(GOODBYE_MESSAGE);
+	}
+
+	private static void exportPdfReport(IGame game, String pdfFileName) {
+		if (game != null) {
+			try {
+				PdfReport.export(game, Paths.get(pdfFileName));
+				System.out.println("Relatorio PDF criado com sucesso: " + pdfFileName);
+			} catch (IOException | DocumentException e) {
+				System.err.println("Erro ao criar o relatorio PDF: " + e.getMessage());
+			}
+		} else {
+			System.out.println("Crie ou carregue uma frota primeiro.");
+		}
 	}
 
 	/**
@@ -185,8 +189,7 @@ public class Tasks {
 		while (i < Fleet.FLEET_SIZE) {
 			IShip s = readShip(in);
 			if (s != null) {
-				boolean success = fleet.addShip(s);
-				if (success)
+				if (fleet.addShip(s))
 					i++;
 				else
 					LOGGER.info("Falha na criacao de {} {} {}", s.getCategory(), s.getBearing(), s.getPosition());
@@ -255,7 +258,8 @@ public class Tasks {
 		input = input.toUpperCase();
 
 		// Verificar os dois formatos possíveis: compactos e com espaço
-		if (input.matches("[A-Z]\\d+")) {
+		boolean isCompactFormat = input.matches("[A-Z]\\d+");
+		if (isCompactFormat) {
 			char column = input.charAt(0); // Extrair a coluna
 			int row = Integer.parseInt(input.substring(1)); // Extrair a linha
 			return new Position(column, row);

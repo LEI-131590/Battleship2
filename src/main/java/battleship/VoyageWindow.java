@@ -122,12 +122,9 @@ public class VoyageWindow {
      * abrir a janela, o jogo continua normalmente: o resumo já foi mostrado no
      * terminal.</p>
      *
-     * @param voyage     as estatísticas da partida
-     * @param ranking    o ranking, já com esta partida incluída
-     * @param playerName o nome do navegador
-     * @param position   a posição em que a partida ficou no ranking
+     * @param voyageResult
      */
-    public static void show(VoyageStats voyage, RankingBoard ranking, String playerName, int position) {
+    public static void show(VoyageResult voyageResult) {
         CountDownLatch opened = new CountDownLatch(1);
         CountDownLatch closed = new CountDownLatch(1);
 
@@ -135,7 +132,7 @@ public class VoyageWindow {
             try {
                 Stage stage = new Stage();
                 stage.setTitle("Rota da Índia");
-                stage.setScene(buildScene(voyage, ranking, playerName, position, stage));
+                stage.setScene(buildScene(voyageResult.voyage(), voyageResult.ranking(), voyageResult.playerName(), voyageResult.position(), stage));
                 stage.setResizable(false);
                 stage.setOnHidden(e -> closed.countDown());
                 stage.show();
@@ -488,22 +485,8 @@ public class VoyageWindow {
                 {530, 0, 760, 0, 760, 60, 690, 60, 555, 60, 520, 40}                                // Ásia
         };
         // primeiro as praias (um contorno largo cor de areia), depois a terra por cima
-        for (double[] l : lands) {
-            Polygon beach = new Polygon(l);
-            beach.setFill(BEACH);
-            beach.setStroke(BEACH);
-            beach.setStrokeWidth(7);
-            beach.setStrokeLineJoin(StrokeLineJoin.ROUND);
-            map.getChildren().add(beach);
-        }
-        for (double[] l : lands) {
-            Polygon land = new Polygon(l);
-            land.setFill(LAND);
-            land.setStroke(LAND_EDGE);
-            land.setStrokeWidth(1.5);
-            land.setStrokeLineJoin(StrokeLineJoin.ROUND);
-            map.getChildren().add(land);
-        }
+        drawBeaches(map, lands);
+        drawLandMasses(map, lands);
 
         // desertos: o Sara e a Arábia
         map.getChildren().addAll(
@@ -528,6 +511,28 @@ public class VoyageWindow {
             map.getChildren().add(tree(t[0], t[1]));
         }
         map.getChildren().addAll(palm(625, 110), palm(650, 95), palm(640, 140));
+    }
+
+    private static void drawLandMasses(Pane map, double[][] lands) {
+        for (double[] l : lands) {
+            Polygon land = new Polygon(l);
+            land.setFill(LAND);
+            land.setStroke(LAND_EDGE);
+            land.setStrokeWidth(1.5);
+            land.setStrokeLineJoin(StrokeLineJoin.ROUND);
+            map.getChildren().add(land);
+        }
+    }
+
+    private static void drawBeaches(Pane map, double[][] lands) {
+        for (double[] l : lands) {
+            Polygon beach = new Polygon(l);
+            beach.setFill(BEACH);
+            beach.setStroke(BEACH);
+            beach.setStrokeWidth(7);
+            beach.setStrokeLineJoin(StrokeLineJoin.ROUND);
+            map.getChildren().add(beach);
+        }
     }
 
     private static Polygon desert(double... points) {
@@ -780,5 +785,8 @@ public class VoyageWindow {
                 (int) Math.round(c.getRed() * 255),
                 (int) Math.round(c.getGreen() * 255),
                 (int) Math.round(c.getBlue() * 255));
+    }
+
+    static record VoyageResult(VoyageStats voyage, RankingBoard ranking, String playerName, int position) {
     }
 }
