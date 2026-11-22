@@ -189,8 +189,7 @@ public class Tasks {
 		while (i < Fleet.FLEET_SIZE) {
 			IShip s = readShip(in);
 			if (s != null) {
-				boolean success = fleet.addShip(s);
-				if (success)
+				if (fleet.addShip(s))
 					i++;
 				else
 					LOGGER.info("Falha na criacao de {} {} {}", s.getCategory(), s.getBearing(), s.getPosition());
