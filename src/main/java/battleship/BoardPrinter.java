@@ -12,12 +12,12 @@ public class BoardPrinter {
      *                   and their positions are shown according to their placement.
      * @param moves      the list of moves containing shots. If shot positions are shown,
      *                   they will be rendered based on their outcome (hit, miss, etc.).
-     * @param show_shots if true, displays the shots taken during the game and marks
+     * @param showShots if true, displays the shots taken during the game and marks
      *                   their result (hit or miss) on the board.
      * @param showLegend if true, displays an explanatory legend of the symbols used
      *                   to represent various elements such as ships, misses, hits, etc.
      */
-    public static void printBoard(IFleet fleet, List<IMove> moves, boolean show_shots, boolean showLegend) {
+    public static void printBoard(IFleet fleet, List<IMove> moves, boolean showShots, boolean showLegend) {
 
         assert fleet != null;
         assert moves != null;
@@ -30,7 +30,7 @@ public class BoardPrinter {
 
         printShips(fleet, map);
 
-        if (show_shots)
+        if (showShots)
             printBoardShots(moves, map);
 
         printBoardFrame(map);
