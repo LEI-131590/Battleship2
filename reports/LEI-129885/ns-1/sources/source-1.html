@@ -1,0 +1,261 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > PdfReport</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">battleship</a>
+</div>
+
+<h1>Coverage Summary for Class: PdfReport (battleship)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PdfReport</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (45/45)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (88/88)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package battleship;
+&nbsp;
+&nbsp;import org.openpdf.text.*;
+&nbsp;import org.openpdf.text.pdf.PdfPCell;
+&nbsp;import org.openpdf.text.pdf.PdfPTable;
+&nbsp;import org.openpdf.text.pdf.PdfWriter;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.OutputStream;
+&nbsp;import java.nio.file.Files;
+&nbsp;import java.nio.file.Path;
+&nbsp;import java.util.Objects;
+&nbsp;import java.util.List;
+&nbsp;import java.awt.Color;
+&nbsp;
+&nbsp;public class PdfReport {
+&nbsp;
+&nbsp;    private PdfReport() {
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void export(IGame game, Path outputFile) throws IOException, DocumentException {
+<b class="fc">&nbsp;        Objects.requireNonNull(game, &quot;Game must not be null&quot;);</b>
+<b class="fc">&nbsp;        Objects.requireNonNull(outputFile, &quot;Output file must not be null&quot;);</b>
+<b class="fc">&nbsp;        Path absolutePath = outputFile.toAbsolutePath();</b>
+<b class="fc">&nbsp;        Files.createDirectories(absolutePath.getParent());</b>
+<b class="fc">&nbsp;        Document document = new Document(PageSize.A4);</b>
+<b class="fc">&nbsp;        try (OutputStream outputStream = Files.newOutputStream(absolutePath)) {</b>
+<b class="fc">&nbsp;            PdfWriter.getInstance(document, outputStream);</b>
+<b class="fc">&nbsp;            document.open();</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                addReportContent(document, game);</b>
+&nbsp;            } finally {
+&nbsp;                document.close();
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private static void addReportContent(Document document, IGame game) throws DocumentException {
+<b class="fc">&nbsp;        Font titleFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 18);</b>
+<b class="fc">&nbsp;        Font headingFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12);</b>
+<b class="fc">&nbsp;        Font normalFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);</b>
+<b class="fc">&nbsp;        document.add(new Paragraph(&quot;Relatório do Jogo - Battleship&quot;, titleFont));</b>
+<b class="fc">&nbsp;        document.add(new Paragraph(&quot; &quot;));</b>
+<b class="fc">&nbsp;        document.add(new Paragraph(&quot;Estado da Frota&quot;, headingFont));</b>
+<b class="fc">&nbsp;        document.add(new Paragraph(&quot;Navios a flutuar: &quot; + game.getMyFleet().getFloatingShips().size(), normalFont));</b>
+<b class="fc">&nbsp;        document.add(new Paragraph(&quot;Navios afundados: &quot; + game.getMyFleet().getSunkShips().size(), normalFont));</b>
+<b class="fc">&nbsp;        document.add(new Paragraph(&quot;Tiros certeiros: &quot; + game.getHits(), normalFont));</b>
+<b class="fc">&nbsp;        document.add(new Paragraph(&quot;Tiros invalidos: &quot; + game.getInvalidShots(), normalFont));</b>
+<b class="fc">&nbsp;        document.add(new Paragraph(&quot;Tiros repetidos: &quot; + game.getRepeatedShots(), normalFont));</b>
+<b class="fc">&nbsp;        document.add(new Paragraph(&quot;Rajadas registadas: &quot; + game.getAlienMoves().size(), normalFont));</b>
+<b class="fc">&nbsp;        document.add(new Paragraph(&quot; &quot;));</b>
+<b class="fc">&nbsp;        document.add(new Paragraph(&quot;Tabuleiro&quot;, headingFont));</b>
+<b class="fc">&nbsp;        document.add(new Paragraph(&quot; &quot;));</b>
+<b class="fc">&nbsp;        char[][] map = createBoard(game);</b>
+<b class="fc">&nbsp;        PdfPTable table = new PdfPTable(Game.BOARD_SIZE + 1);</b>
+<b class="fc">&nbsp;        table.setHorizontalAlignment(Element.ALIGN_CENTER);</b>
+<b class="fc">&nbsp;        table.setWidthPercentage(0);</b>
+<b class="fc">&nbsp;        table.setTotalWidth(330f);</b>
+<b class="fc">&nbsp;        table.setLockedWidth(true);</b>
+<b class="fc">&nbsp;        float[] widths = new float[Game.BOARD_SIZE + 1];</b>
+<b class="fc">&nbsp;        for (int c = 0; c &lt; widths.length; c++) {</b>
+<b class="fc">&nbsp;            widths[c] = 1f;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        table.setWidths(widths);</b>
+<b class="fc">&nbsp;        addCell(table, &quot;&quot;, true);</b>
+<b class="fc">&nbsp;        for (int col = 1; col &lt;= Game.BOARD_SIZE; col++) {</b>
+<b class="fc">&nbsp;            addCell(table, String.valueOf(col), true);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        for (int row = 0; row &lt; Game.BOARD_SIZE; row++) {</b>
+<b class="fc">&nbsp;            addCell(table, String.valueOf((char) (&#39;A&#39; + row)), true);</b>
+<b class="fc">&nbsp;            for (int col = 0; col &lt; Game.BOARD_SIZE; col++) {</b>
+<b class="fc">&nbsp;                addCell(table, String.valueOf(map[row][col]), false);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        document.add(table);</b>
+<b class="fc">&nbsp;        document.add(new Paragraph(&quot; &quot;));</b>
+<b class="fc">&nbsp;        document.add(new Paragraph(&quot;Legenda&quot;, headingFont));</b>
+<b class="fc">&nbsp;        document.add(new Paragraph(&quot;# = Navio; * = Tiro certeiro; &quot; + &quot;o = Tiro na agua; &quot; + &quot;- = Adjacente a navio afundado; &quot; + &quot;. = Agua&quot;, normalFont));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static char[][] createBoard(IGame game) {
+<b class="fc">&nbsp;        char[][] board = new char[Game.BOARD_SIZE][Game.BOARD_SIZE];</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; Game.BOARD_SIZE; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; Game.BOARD_SIZE; j++) {</b>
+<b class="fc">&nbsp;                board[i][j] = &#39;.&#39;;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        IFleet fleet = game.getMyFleet();</b>
+<b class="fc">&nbsp;        for (IShip ship : fleet.getShips()) {</b>
+<b class="fc">&nbsp;            for (IPosition position : ship.getPositions()) {</b>
+<b class="fc">&nbsp;                board[position.getRow()][position.getColumn()] = &#39;#&#39;;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        for (IShip ship : fleet.getSunkShips()) {</b>
+<b class="fc">&nbsp;            for (IPosition position : ship.getAdjacentPositions()) {</b>
+<b class="fc">&nbsp;                int row = position.getRow();</b>
+<b class="fc">&nbsp;                int col =  position.getColumn();</b>
+<b class="fc">&nbsp;                if (position.isInside() &amp;&amp; board[row][col] == &#39;.&#39;) {</b>
+<b class="fc">&nbsp;                    board[row][col] = &#39;-&#39;;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        for (IMove move : game.getAlienMoves()) {</b>
+<b class="fc">&nbsp;            List&lt;IPosition&gt; shots = move.getShots();</b>
+<b class="fc">&nbsp;            for (IPosition shot : shots) {</b>
+<b class="fc">&nbsp;                if (!shot.isInside()) {</b>
+&nbsp;                    continue;
+&nbsp;                }
+<b class="fc">&nbsp;                int row = shot.getRow();</b>
+<b class="fc">&nbsp;                int col = shot.getColumn();</b>
+<b class="fc">&nbsp;                if (fleet.shipAt(shot) != null) {</b>
+<b class="fc">&nbsp;                    board[row][col] = &#39;*&#39;;</b>
+<b class="fc">&nbsp;                } else if (board[row][col] == &#39;-&#39; || board[row][col] == &#39;.&#39;) {</b>
+<b class="fc">&nbsp;                    board[row][col] = &#39;o&#39;;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return board;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static void addCell(PdfPTable table, String value, boolean header) {
+<b class="fc">&nbsp;        Font font = FontFactory.getFont(header ? FontFactory.HELVETICA_BOLD : FontFactory.HELVETICA, 9);</b>
+<b class="fc">&nbsp;        PdfPCell cell = new PdfPCell(new Phrase(value, font));</b>
+<b class="fc">&nbsp;        cell.setHorizontalAlignment(Element.ALIGN_CENTER);</b>
+<b class="fc">&nbsp;        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);</b>
+<b class="fc">&nbsp;        cell.setFixedHeight(30f);</b>
+<b class="fc">&nbsp;        cell.setPadding(0);</b>
+<b class="fc">&nbsp;        cell.setBorderColor(new Color(190, 200, 210));</b>
+<b class="fc">&nbsp;        cell.setBorderWidth(0.6f);</b>
+<b class="fc">&nbsp;        if (header) {</b>
+<b class="fc">&nbsp;            cell.setBackgroundColor(new Color(230, 235, 240));</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            switch (value) {</b>
+<b class="fc">&nbsp;                case &quot;#&quot; -&gt; cell.setBackgroundColor(new Color(190, 215, 240));</b>
+<b class="fc">&nbsp;                case &quot;*&quot; -&gt; cell.setBackgroundColor(new Color(165, 220, 175));</b>
+<b class="fc">&nbsp;                case &quot;o&quot; -&gt; cell.setBackgroundColor(new Color(250, 200, 195));</b>
+<b class="fc">&nbsp;                case &quot;-&quot; -&gt; cell.setBackgroundColor(new Color(255, 255, 204));</b>
+<b class="fc">&nbsp;                case &quot;.&quot; -&gt; cell.setBackgroundColor(Color.WHITE);</b>
+<b class="fc">&nbsp;                default -&gt; cell.setBackgroundColor(Color.WHITE);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        table.addCell(cell);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-11-21 19:43</div>
+</div>
+</body>
+</html>
