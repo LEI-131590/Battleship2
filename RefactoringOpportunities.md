@@ -32,7 +32,7 @@ Cada membro refabrica as classes que testou na Parte 1 e o código que desenvolv
 ## Catarina
 
 | Local | Cheiro no código | Refabricação   | Nº aluno |
-|---|---|----------------|----------|
+|---|---|---|---|
 | `Game::printBoard, printShips, printBoardShots, printBoardFrame` | Large Class / responsabilidades diferentes | Extract Class  | 131590   |
 | `Game::fireShots` | Método com várias responsabilidades | Extract Method | 131590   |
 | `Game::readEnemyFire` | Complex Method | Decompose Conditional | 131590   |
