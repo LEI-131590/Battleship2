@@ -18,13 +18,13 @@ public class HistoryDB {
         try (Connection conn = DriverManager.getConnection(DB_URL);
              Statement stmt = conn.createStatement()) {
 
-            String sql = "CREATE TABLE IF NOT EXISTS moves (" +
+            String createMovesTableSql = "CREATE TABLE IF NOT EXISTS moves (" +
                     "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                     "move_number INTEGER, " +
                     "coordinates TEXT, " +
                     "json_result TEXT)";
 
-            stmt.execute(sql);
+            stmt.execute(createMovesTableSql);
         } catch (Exception e) {
             System.err.println("Error initializing database: " + e.getMessage());
         }
