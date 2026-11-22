@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 public class HistoryDB {
-    public static final String INSERT_MOVE_SQL = "INSERT INTO moves (move_number, coordinates, json_result) VALUES (?, ?, ?)"; // Forçar leitura do Qodana
+    private static final String INSERT_MOVE_SQL = "INSERT INTO moves (move_number, coordinates, json_result) VALUES (?, ?, ?)";
 
     //database file
     private static final String DB_URL = "jdbc:sqlite:battleship_history.db";
