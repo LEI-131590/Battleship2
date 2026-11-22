@@ -102,7 +102,7 @@ public class Move implements IMove {
 			// Construção da mensagem de saída
 			StringBuilder output = new StringBuilder();
 
-			if (validShots == 0 && repeatedShots > 0) {
+			if (hasOnlyRepeatedShots(validShots, repeatedShots)) {
 				output.append(repeatedShots).append(" tiro").append(repeatedShots > 1 ? "s" : "").append(" repetido").append(repeatedShots > 1 ? "s" : "");
 			} else {
 				if (validShots > 0) {
@@ -122,7 +122,7 @@ public class Move implements IMove {
 					for (Map.Entry<String, Integer> entry : hitsPerBoat.entrySet()) {
 						String boatName = entry.getKey();
 						int hits = entry.getValue();
-						if (!sunkBoatsCount.containsKey(boatName)) {
+						if (isNotSunk(boatName, sunkBoatsCount)) {
 							output.append(hits).append(" tiro").append(hits > 1 ? "s" : "").append(" num(a) ").append(boatName).append(" + ");
 						}
 					}
@@ -130,7 +130,7 @@ public class Move implements IMove {
 
 				if (missedShots > 0) {
 					output.append(missedShots).append(" tiro").append(missedShots > 1 ? "s" : "").append(" na água");
-				} else if (!sunkBoatsCount.isEmpty() || !hitsPerBoat.isEmpty()) {
+				} else if (hasShipResults(sunkBoatsCount, hitsPerBoat)) {
 					output.setLength(output.length() - 2); // Remover o "+" final
 				}
 
@@ -174,7 +174,7 @@ public class Move implements IMove {
 		// Criar a lista de acertos em barcos que não foram afundados
 		List<Map<String, Object>> boatHits = new ArrayList<>();
 		for (Map.Entry<String, Integer> entry : hitsPerBoat.entrySet()) {
-			if (!sunkBoatsCount.containsKey(entry.getKey())) {
+			if (isNotSunk(entry.getKey(), sunkBoatsCount)) {
 				Map<String, Object> boat = new HashMap<>();
 				boat.put("type", entry.getKey());
 				boat.put("hits", entry.getValue());
@@ -201,5 +201,17 @@ public class Move implements IMove {
 
 		// Retornar o JSON
 		return jsonString;
+	}
+
+	private boolean hasOnlyRepeatedShots(int validShots, int repeatedShots) {
+		return validShots == 0 && repeatedShots > 0;
+	}
+
+	private boolean hasShipResults(Map<String, Integer> sunkBoatsCount, Map<String, Integer> hitsPerBoat) {
+		return !sunkBoatsCount.isEmpty() || !hitsPerBoat.isEmpty();
+	}
+
+	private boolean isNotSunk(String boatName, Map<String, Integer> sunkBoatsCount) {
+		return !sunkBoatsCount.containsKey(boatName);
 	}
 }
