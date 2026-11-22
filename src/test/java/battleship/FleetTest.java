@@ -24,7 +24,7 @@ import java.util.List;
  * - getFloatingShips: 3
  * - getSunkShips: 3
  * - shipAt: 4
- * - colisionRisk (privado): 4
+ * - collisionRisk (privado): 4
  * - printShips: 3
  * - printStatus: 1
  * - printShipsByCategory: 2
@@ -206,13 +206,13 @@ public class FleetTest {
 
 
 	/**
-	 * Test for private method colisionRisk.
+	 * Test for private method collisionRisk.
 	 * Cyclomatic Complexity: 2
 	 */
 	@Test
-	@DisplayName("colisionRisk: deteta risco de colisão com navios sobrepostos e não com navios afastados")
+	@DisplayName("collisionRisk: deteta risco de colisão com navios sobrepostos e não com navios afastados")
 	void testColisionRisk() throws Exception {
-		var method = Fleet.class.getDeclaredMethod("colisionRisk", IShip.class);
+		var method = Fleet.class.getDeclaredMethod("collisionRisk", IShip.class);
 		method.setAccessible(true);
 
 		IShip ship1 = new Barge(Compass.NORTH, new Position(1, 1));
@@ -316,9 +316,9 @@ public class FleetTest {
 	}
 
 	@Test
-	@DisplayName("colisionRisk: com um navio null, o assert falha (AssertionError)")
+	@DisplayName("collisionRisk: com um navio null, o assert falha (AssertionError)")
 	void testColisionRiskNull() throws Exception {
-		Method method = Fleet.class.getDeclaredMethod("colisionRisk", IShip.class);
+		Method method = Fleet.class.getDeclaredMethod("collisionRisk", IShip.class);
 		method.setAccessible(true);
 		// Por reflexão, a exceção vem "embrulhada" numa InvocationTargetException
 		InvocationTargetException e = assertThrows(InvocationTargetException.class,
@@ -331,7 +331,7 @@ public class FleetTest {
 	@Test
 	@DisplayName("printShips: com uma lista vazia, não escreve nada")
 	void testPrintShips1() {
-		String out = captureOut(() -> fleet.printShips(new ArrayList<>()));
+		String out = captureOut(() -> Fleet.printShips(new ArrayList<>()));
 		assertEquals("", out, "Error: expected no output for an empty list but got: " + out);
 	}
 
@@ -340,7 +340,7 @@ public class FleetTest {
 	void testPrintShips2() {
 		IShip barge = new Barge(Compass.NORTH, new Position(1, 1));
 		IShip caravel = new Caravel(Compass.NORTH, new Position(4, 4));
-		String out = captureOut(() -> fleet.printShips(List.of(barge, caravel)));
+		String out = captureOut(() -> Fleet.printShips(List.of(barge, caravel)));
 		assertAll(
 				() -> assertTrue(out.contains(barge.toString()), "Error: expected " + barge + " in the output but got: " + out),
 				() -> assertTrue(out.contains(caravel.toString()), "Error: expected " + caravel + " in the output but got: " + out),
@@ -351,7 +351,7 @@ public class FleetTest {
 	@Test
 	@DisplayName("printShips: com uma lista null, o assert falha (AssertionError)")
 	void testPrintShipsNull() {
-		assertThrows(AssertionError.class, () -> fleet.printShips(null),
+		assertThrows(AssertionError.class, () -> Fleet.printShips(null),
 				"Error: expected AssertionError for a null list");
 	}
 
