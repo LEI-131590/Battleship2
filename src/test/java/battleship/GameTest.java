@@ -317,28 +317,28 @@ public class GameTest {
 	@DisplayName("Test printBoard with shots and legend")
 	void printBoard1() {
 		assertDoesNotThrow(() ->
-				Game.printBoard(game.getMyFleet(), List.of(), true, true));
+				BoardPrinter.printBoard(game.getMyFleet(), List.of(), true, true));
 	}
 
 	@Test
 	@DisplayName("Test printBoard without shots or legend")
 	void printBoard2() {
 		assertDoesNotThrow(() ->
-				Game.printBoard(game.getMyFleet(), List.of(), false, false));
+				BoardPrinter.printBoard(game.getMyFleet(), List.of(), false, false));
 	}
 
 	@Test
 	@DisplayName("Test printBoard with shots but without legend")
 	void printBoard3() {
 		assertDoesNotThrow(() ->
-				Game.printBoard(game.getMyFleet(), List.of(), true, false));
+				BoardPrinter.printBoard(game.getMyFleet(), List.of(), true, false));
 	}
 
 	@Test
 	@DisplayName("Test printBoard with legend but without shots")
 	void printBoard4() {
 		assertDoesNotThrow(() ->
-				Game.printBoard(game.getMyFleet(), List.of(), false, true));
+				BoardPrinter.printBoard(game.getMyFleet(), List.of(), false, true));
 	}
 
 	@Test
@@ -368,7 +368,7 @@ public class GameTest {
 		fleet.addShip(ship);
 
 		assertDoesNotThrow(() ->
-				Game.printBoard(fleet, List.of(), false, false));
+				BoardPrinter.printBoard(fleet, List.of(), false, false));
 	}
 
 	@Test
@@ -389,7 +389,7 @@ public class GameTest {
 		ship.sink();
 
 		assertDoesNotThrow(() ->
-				Game.printBoard(
+				BoardPrinter.printBoard(
 						game.getMyFleet(),
 						game.getAlienMoves(),
 						true,
