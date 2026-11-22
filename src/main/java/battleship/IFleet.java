@@ -36,7 +36,7 @@ public interface IFleet
 	 * @param category the category
 	 * @return the ships like
 	 */
-	List<IShip> getShipsLike(String category);
+	List<IShip> getShipsByCategory(String category);
 
 	/**
 	 * Gets floating ships.

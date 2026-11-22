@@ -164,7 +164,7 @@ public class FleetTest {
 		fleet.addShip(ship1);
 		fleet.addShip(ship2);
 
-		List<IShip> barges = fleet.getShipsLike("Barca");
+		List<IShip> barges = fleet.getShipsByCategory("Barca");
 		assertEquals(1, barges.size(), "Error: There should be exactly one ship of category 'Barca'.");
 		assertEquals(ship1, barges.get(0), "Error: The ship of category 'Barca' does not match.");
 	}
@@ -274,7 +274,7 @@ public class FleetTest {
 	@Test
 	@DisplayName("getShipsLike: com uma categoria null, o assert falha (AssertionError)")
 	void testGetShipsLikeNull() {
-		assertThrows(AssertionError.class, () -> fleet.getShipsLike(null),
+		assertThrows(AssertionError.class, () -> fleet.getShipsByCategory(null),
 				"Error: expected AssertionError for a null category");
 	}
 
