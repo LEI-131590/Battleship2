@@ -3,103 +3,12 @@ package battleship;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
 public class Game implements IGame
 {
-	/**
-	 * Prints the game board by representing the positions of ships, adjacent tiles,
-	 * shots, and other game elements onto the console. The method also optionally
-	 * displays shot positions and a legend explaining the symbols used on the board.
-	 *
-	 * @param fleet       the fleet of ships to be displayed on the board. Ships are marked
-	 *                    and their positions are shown according to their placement.
-	 * @param moves       the list of moves containing shots. If shot positions are shown,
-	 *                    they will be rendered based on their outcome (hit, miss, etc.).
-	 * @param show_shots  if true, displays the shots taken during the game and marks
-	 *                    their result (hit or miss) on the board.
-	 * @param showLegend  if true, displays an explanatory legend of the symbols used
-	 *                    to represent various elements such as ships, misses, hits, etc.
-	 */
-	public static void printBoard(IFleet fleet, List<IMove> moves, boolean show_shots, boolean showLegend) {
-
-		assert fleet != null;
-		assert moves != null;
-
-		char[][] map = new char[BOARD_SIZE][BOARD_SIZE];
-
-		for (int r = 0; r < BOARD_SIZE; r++)
-			for (int c = 0; c < BOARD_SIZE; c++)
-				map[r][c] = EMPTY_MARKER;
-
-		printShips(fleet, map);
-
-		if (show_shots)
-			printBoardShots(moves, map);
-
-		printBoardFrame(map);
-
-		if (showLegend) {
-			System.out.println("          LEGENDA");
-			System.out.println("'" + SHIP_MARKER + "'->navio, '" + SHIP_ADJACENT_MARKER + "'->adjacente a navio, '" + EMPTY_MARKER + "'->água");
-			System.out.println("'" + SHOT_SHIP_MARKER + "'->Tiro certeiro, '" + SHOT_WATER_MARKER + "'->Tiro na água");
-		}
-		System.out.println();
-	}
-
-	private static void printShips(IFleet fleet, char[][] map) {
-		for (IShip ship : fleet.getShips()) {
-			for (IPosition ship_pos : ship.getPositions())
-				map[ship_pos.getRow()][ship_pos.getColumn()] = SHIP_MARKER;
-			if (!ship.stillFloating())
-				for (IPosition adjacent_pos : ship.getAdjacentPositions())
-					map[adjacent_pos.getRow()][adjacent_pos.getColumn()] = SHIP_ADJACENT_MARKER;
-		}
-	}
-
-	private static void printBoardShots(List<IMove> moves, char[][] map) {
-		for (IMove move : moves)
-			for (IPosition shot : move.getShots()) {
-				if (shot.isInside()){
-					int row = shot.getRow();
-					int col = shot.getColumn();
-					if (map[row][col] == SHIP_MARKER)
-						map[row][col] = SHOT_SHIP_MARKER;
-					if (map[row][col] == EMPTY_MARKER || map[row][col] == SHIP_ADJACENT_MARKER)
-						map[row][col] = SHOT_WATER_MARKER;
-				}
-			}
-	}
-
-	private static void printBoardFrame(char[][] map) {
-		System.out.println();
-		System.out.print("    ");
-		for (int col = 0; col < BOARD_SIZE; col++) {
-			System.out.print(" " + (col + 1));
-		}
-		System.out.println();
-
-		System.out.print("   +-");
-		for (int col = 0; col < BOARD_SIZE; col++) {
-			System.out.print("--");
-		}
-		System.out.println("+");
-
-		for (int row = 0; row < BOARD_SIZE; row++) {
-			Position pos = new Position(row, 0);
-			char rowLabel = pos.getClassicRow();
-			System.out.print(" " + rowLabel + " |");
-			for (int col = 0; col < BOARD_SIZE; col++)
-				System.out.print(" " + map[row][col]);
-			System.out.println(" |");
-		}
-
-		System.out.print("   +");
-		for (int col = 0; col < BOARD_SIZE; col++)
-			System.out.print("--");
-		System.out.println("-+");
-	}
 
 	/**
 	 * Serializes a list of shot positions into a JSON string. Each shot is represented
@@ -131,7 +40,7 @@ public class Game implements IGame
 			simplifiedShots.add(simplePos);
 		}
 
-		String jsonString = null;
+		String jsonString;
 		try {
 			// 2. Serialize the simplified list instead of the raw 'shots' list
 			jsonString = objectMapper.writeValueAsString(simplifiedShots);
@@ -150,11 +59,11 @@ public class Game implements IGame
 	public static final int BOARD_SIZE = 10;
 	public static final int NUMBER_SHOTS = 3;
 
-	private static final char EMPTY_MARKER = '.';
-	private static final char SHIP_MARKER = '#';
-	private static final char SHOT_SHIP_MARKER = '*';
-	private static final char SHOT_WATER_MARKER = 'o';
-	private static final char SHIP_ADJACENT_MARKER = '-';
+	static final char EMPTY_MARKER = '.';
+	static final char SHIP_MARKER = '#';
+	static final char SHOT_SHIP_MARKER = '*';
+	static final char SHOT_WATER_MARKER = 'o';
+	static final char SHIP_ADJACENT_MARKER = '-';
 
 	//------------------------------------------------------------------
 	private final IFleet myFleet;
@@ -295,19 +204,7 @@ public class Game implements IGame
 			// Lê a próxima parte e constrói uma posição
 			String token = inputScanner.next();
 
-			if (token.matches("[A-Za-z]")) {
-				// Caso seja somente uma coluna ("A", "B", etc.), esperar o próximo número
-				if (inputScanner.hasNextInt()) {
-					int row = inputScanner.nextInt();
-					shots.add(new Position(token.toUpperCase().charAt(0), row));
-				} else {
-					throw new IllegalArgumentException("Posição incompleta! A coluna '" + token + "' não é seguida por uma linha.");
-				}
-			} else {
-				// Caso o token já contenha a coluna e a linha juntas (ex.: "A3")
-				Scanner singleScanner = new Scanner(token);
-				shots.add(Tasks.readClassicPosition(singleScanner));
-			}
+			shots.add(readShotPosition(token, inputScanner));
 		}
 
 		if (shots.size() != NUMBER_SHOTS) {
@@ -317,6 +214,20 @@ public class Game implements IGame
 		this.fireShots(shots);
 
 		return Game.jsonShots(shots);
+	}
+
+	private IPosition readShotPosition(String token, Scanner inputScanner) {
+		if (token.matches("[A-Za-z]")) {
+			if (inputScanner.hasNextInt()) {
+				int row = inputScanner.nextInt();
+				return new Position(token.toUpperCase().charAt(0), row);
+			} else {
+				throw new IllegalArgumentException("Posição incompleta! A coluna '" + token + "' não é seguida por uma linha.");
+			}
+		} else {
+			Scanner singleScanner = new Scanner(token);
+			return Tasks.readClassicPosition(singleScanner);
+		}
 	}
 
 	/**
@@ -354,10 +265,7 @@ public class Game implements IGame
 		alienMoves.add(move);
 
 		// 2. Extract the coordinates into a readable String
-		StringBuilder formattedCoordinates = new StringBuilder();
-		for (IPosition p : shots) {
-			formattedCoordinates.append(p.getClassicRow()).append(p.getClassicColumn()).append(" ");
-		}
+		StringBuilder formattedCoordinates = buildFormattedCoordinates(shots);
 
 		// 3. Send everything to the SQLite database
 		HistoryDB.saveMove(moveNumber, formattedCoordinates.toString().trim(), jsonResult);
@@ -365,6 +273,14 @@ public class Game implements IGame
 		moveNumber++;
 
 		//System.out.println(move);
+	}
+
+	private static @NotNull StringBuilder buildFormattedCoordinates(List<IPosition> shots) {
+		StringBuilder formattedCoordinates = new StringBuilder();
+		for (IPosition p : shots) {
+			formattedCoordinates.append(p.getClassicRow()).append(p.getClassicColumn()).append(" ");
+		}
+		return formattedCoordinates;
 	}
 
 	/**
@@ -394,15 +310,13 @@ public class Game implements IGame
 		IShip ship = myFleet.shipAt(pos);
 		if (ship == null)
 			return new ShotResult(true, false, null, false);
-		else
-		{
-			ship.shoot(pos);
-			countHits++;
-			if (!ship.stillFloating()) {
-				countSinks++;
-			}
-			return new ShotResult(true, false, ship, !ship.stillFloating());
+
+		ship.shoot(pos);
+		countHits++;
+		if (!ship.stillFloating()) {
+			countSinks++;
 		}
+		return new ShotResult(true, false, ship, !ship.stillFloating());
 	}
 
 	@Override
@@ -430,10 +344,8 @@ public class Game implements IGame
 	}
 
 	@Override
-	public int getRemainingShips()
-	{
-		List<IShip> floatingShips = myFleet.getFloatingShips();
-		return floatingShips.size();
+	public int getRemainingShips() {
+		return myFleet.getFloatingShips().size();
 	}
 
 	public boolean repeatedShot(IPosition pos)
@@ -446,14 +358,14 @@ public class Game implements IGame
 		return false;
 	}
 
-	public void printMyBoard(boolean show_shots, boolean show_legend)
+	public void printMyBoard(boolean showShots, boolean showLegend)
 	{
-		Game.printBoard(this.myFleet, this.alienMoves, show_shots, show_legend);
+		BoardPrinter.printBoard(this.myFleet, this.alienMoves, showShots, showLegend);
 	}
 
-	public void printAlienBoard(boolean show_shots, boolean show_legend)
+	public void printAlienBoard(boolean showShots, boolean showLegend)
 	{
-		Game.printBoard(this.alienFleet, this.myMoves, show_shots, show_legend);
+		BoardPrinter.printBoard(this.alienFleet, this.myMoves, showShots, showLegend);
 	}
 
 	public void over() {
@@ -462,4 +374,5 @@ public class Game implements IGame
 			System.out.println("| Maldito sejas, Java Sparrow, eu voltarei, glub glub glub ... |");
 			System.out.println("+--------------------------------------------------------------+");
 	}
+
 }
