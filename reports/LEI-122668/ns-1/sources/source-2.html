@@ -1,0 +1,299 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > RankingBoard</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">battleship</a>
+</div>
+
+<h1>Coverage Summary for Class: RankingBoard (battleship)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RankingBoard</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (37/37)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RankingBoard$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">RankingBoard$Entry</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (39/39)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package battleship;
+&nbsp;
+&nbsp;import com.fasterxml.jackson.core.type.TypeReference;
+&nbsp;import com.fasterxml.jackson.databind.ObjectMapper;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.IOException;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Comparator;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Ranking dos Grandes Navegadores (issue #6).
+&nbsp; *
+&nbsp; * &lt;p&gt;Guarda o resultado de cada partida terminada num ficheiro JSON, para que o
+&nbsp; * ranking se mantenha entre execuções do jogo. As entradas são ordenadas por
+&nbsp; * pontos (do maior para o menor) e, em caso de empate, pelo menor tempo.&lt;/p&gt;
+&nbsp; */
+&nbsp;public class RankingBoard {
+&nbsp;
+&nbsp;    /** Ficheiro onde o ranking é guardado (na pasta data do projeto). */
+&nbsp;    public static final String RANKING_FILE = &quot;data/ranking.json&quot;;
+&nbsp;
+&nbsp;    /** Quantos navegadores aparecem no top. */
+&nbsp;    public static final int TOP_SIZE = 5;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Uma entrada do ranking: o resultado de uma partida.
+&nbsp;     * O Jackson converte automaticamente cada entrada de e para JSON.
+&nbsp;     */
+<b class="fc">&nbsp;    public record Entry(String name, int points, String destination,</b>
+&nbsp;                        long timeMillis, String time, int volleys, String date) {
+&nbsp;    }
+&nbsp;
+&nbsp;    // Ordem do ranking: mais pontos primeiro; em caso de empate, menos tempo primeiro
+<b class="fc">&nbsp;    private static final Comparator&lt;Entry&gt; RANKING_ORDER =</b>
+<b class="fc">&nbsp;            Comparator.comparingInt(Entry::points).reversed()</b>
+<b class="fc">&nbsp;                    .thenComparingLong(Entry::timeMillis);</b>
+&nbsp;
+&nbsp;    private final File file;
+<b class="fc">&nbsp;    private final ObjectMapper mapper = new ObjectMapper();</b>
+&nbsp;    private final List&lt;Entry&gt; entries;
+&nbsp;
+&nbsp;    /** Cria o ranking a partir do ficheiro por omissão ({@value #RANKING_FILE}). */
+&nbsp;    public RankingBoard() {
+<b class="fc">&nbsp;        this(new File(RANKING_FILE));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Cria o ranking a partir de um ficheiro à escolha (útil para os testes).
+&nbsp;     *
+&nbsp;     * @param file o ficheiro JSON do ranking
+&nbsp;     */
+<b class="fc">&nbsp;    public RankingBoard(File file) {</b>
+<b class="fc">&nbsp;        this.file = file;</b>
+<b class="fc">&nbsp;        this.entries = load();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** Lê o ranking do ficheiro; se ainda não existir ou estiver estragado, começa vazio. */
+&nbsp;    private List&lt;Entry&gt; load() {
+<b class="fc">&nbsp;        if (!file.exists()) {</b>
+<b class="fc">&nbsp;            return new ArrayList&lt;&gt;();</b>
+&nbsp;        }
+&nbsp;        try {
+<b class="fc">&nbsp;            return new ArrayList&lt;&gt;(mapper.readValue(file, new TypeReference&lt;List&lt;Entry&gt;&gt;() { }));</b>
+&nbsp;        } catch (IOException e) {
+<b class="fc">&nbsp;            System.err.println(&quot;Não foi possível ler o ranking: &quot; + e.getMessage());</b>
+<b class="fc">&nbsp;            return new ArrayList&lt;&gt;();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /** Grava o ranking no ficheiro, criando a pasta se for preciso. */
+&nbsp;    private void save() {
+&nbsp;        try {
+<b class="fc">&nbsp;            File parent = file.getParentFile();</b>
+<b class="fc">&nbsp;            if (parent != null) {</b>
+<b class="fc">&nbsp;                parent.mkdirs();</b>
+&nbsp;            }
+<b class="fc">&nbsp;            mapper.writerWithDefaultPrettyPrinter().writeValue(file, entries);</b>
+&nbsp;        } catch (IOException e) {
+<b class="fc">&nbsp;            System.err.println(&quot;Não foi possível guardar o ranking: &quot; + e.getMessage());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Acrescenta o resultado de uma partida ao ranking e grava-o no ficheiro.
+&nbsp;     *
+&nbsp;     * @param name   o nome do navegador
+&nbsp;     * @param voyage as estatísticas da partida que terminou
+&nbsp;     * @return a posição (1, 2, 3, ...) em que a partida ficou no ranking
+&nbsp;     */
+&nbsp;    public int add(String name, VoyageStats voyage) {
+<b class="fc">&nbsp;        Entry entry = new Entry(name, voyage.getPoints(),</b>
+<b class="fc">&nbsp;                voyage.getDestination().getDisplayName(),</b>
+<b class="fc">&nbsp;                voyage.getElapsedMillis(), voyage.getFormattedTime(),</b>
+<b class="fc">&nbsp;                voyage.getVolleys(), LocalDate.now().toString());</b>
+<b class="fc">&nbsp;        entries.add(entry);</b>
+<b class="fc">&nbsp;        entries.sort(RANKING_ORDER);</b>
+<b class="fc">&nbsp;        save();</b>
+<b class="fc">&nbsp;        return entries.indexOf(entry) + 1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Devolve os melhores navegadores.
+&nbsp;     *
+&nbsp;     * @param n quantos devolver
+&nbsp;     * @return até {@code n} entradas, da melhor para a pior
+&nbsp;     */
+&nbsp;    public List&lt;Entry&gt; getTop(int n) {
+<b class="fc">&nbsp;        return entries.subList(0, Math.min(n, entries.size()));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /** Mostra no terminal o top dos Grandes Navegadores. */
+&nbsp;    public void printTop() {
+<b class="fc">&nbsp;        System.out.println();</b>
+<b class="fc">&nbsp;        System.out.println(&quot;+----------------- GRANDES NAVEGADORES -----------------+&quot;);</b>
+<b class="fc">&nbsp;        if (entries.isEmpty()) {</b>
+<b class="fc">&nbsp;            System.out.println(&quot;  Ainda ninguém completou a viagem. Sê o primeiro!&quot;);</b>
+&nbsp;        } else {
+<b class="fc">&nbsp;            System.out.printf(&quot;  %-2s %-12s %-22s %6s %8s%n&quot;, &quot;#&quot;, &quot;Nome&quot;, &quot;Destino&quot;, &quot;Pontos&quot;, &quot;Tempo&quot;);</b>
+<b class="fc">&nbsp;            int pos = 1;</b>
+<b class="fc">&nbsp;            for (Entry e : getTop(TOP_SIZE)) {</b>
+<b class="fc">&nbsp;                System.out.printf(&quot;  %-2d %-12s %-22s %6d %8s%n&quot;,</b>
+<b class="fc">&nbsp;                        pos++, e.name(), e.destination(), e.points(), e.time());</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        System.out.println(&quot;+-------------------------------------------------------+&quot;);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-11-21 13:44</div>
+</div>
+</body>
+</html>

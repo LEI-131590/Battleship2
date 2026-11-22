@@ -1,6 +1,9 @@
 package battleship;
 
 import org.junit.jupiter.api.*;
+
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -62,7 +65,7 @@ public class PositionTest {
 
 	@Test
 	void getClassicColumn() {
-		assertEquals(3, position.getColumn(), "Failed to get column: expected 3 but got " + position.getColumn());
+		assertEquals(4, position.getClassicColumn(), "Failed to get column: expected 4 but got " + position.getColumn());
 	}
 
 	@Test
@@ -182,4 +185,58 @@ public class PositionTest {
 				"Incorrect string representation: expected '" + expected +
 						"' but got '" + position.toString() + "'");
 	}
+
+	@Test
+	void constructorWithClassicCoordinates() {
+		Position pos = new Position('c', 4);
+		assertEquals(2, pos.getRow());
+		assertEquals(3, pos.getColumn());
+		assertEquals('C', pos.getClassicRow());
+		assertEquals(4, pos.getClassicColumn());
+		assertFalse(pos.isOccupied());
+		assertFalse(pos.isHit());
+	}
+
+	@Test
+	void randomPosition() {
+		Position random = Position.randomPosition();
+		assertNotNull(random);
+		assertTrue(random.isInside(), "Random position should always be inside the board");
+		assertTrue(random.getRow() >= 0 && random.getRow() < Game.BOARD_SIZE);
+		assertTrue(random.getColumn() >= 0 && random.getColumn() < Game.BOARD_SIZE);
+	}
+
+	@Test
+	void adjacentPositionsFromCenter() {
+		Position center = new Position(2, 3);
+		List<IPosition> adjacent = center.adjacentPositions();
+		assertEquals(8, adjacent.size(), "A center position should have 8 adjacent positions");
+		assertTrue(adjacent.contains(new Position(1, 3)));
+		assertTrue(adjacent.contains(new Position(2, 4)));
+		assertTrue(adjacent.contains(new Position(3, 3)));
+		assertTrue(adjacent.contains(new Position(2, 2)));
+	}
+
+	@Test
+	void adjacentPositionsFromCorner() {
+		Position corner = new Position(0, 0);
+		List<IPosition> adjacent = corner.adjacentPositions();
+		assertEquals(3, adjacent.size(), "A corner position should have only 3 adjacent positions");
+		assertTrue(adjacent.contains(new Position(0, 1)));
+		assertTrue(adjacent.contains(new Position(1, 0)));
+		assertTrue(adjacent.contains(new Position(1, 1)));
+	}
+
+	@Test
+	void isAdjacentToSameRowButNotAdjacentColumn() {
+		Position other = new Position(2, 5);
+		assertFalse(position.isAdjacentTo(other), "Positions in the same row but more than one column apart should not be adjacent");
+	}
+
+	@Test
+	void equalsDifferentRowSameColumn() {
+		Position other = new Position(3, 3);
+		assertFalse(position.equals(other), "Positions with different rows but the same column should not be equal");
+	}
+
 }
