@@ -122,12 +122,9 @@ public class VoyageWindow {
      * abrir a janela, o jogo continua normalmente: o resumo já foi mostrado no
      * terminal.</p>
      *
-     * @param voyage     as estatísticas da partida
-     * @param ranking    o ranking, já com esta partida incluída
-     * @param playerName o nome do navegador
-     * @param position   a posição em que a partida ficou no ranking
+     * @param voyageResult
      */
-    public static void show(VoyageStats voyage, RankingBoard ranking, String playerName, int position) {
+    public static void show(VoyageResult voyageResult) {
         CountDownLatch opened = new CountDownLatch(1);
         CountDownLatch closed = new CountDownLatch(1);
 
@@ -135,7 +132,7 @@ public class VoyageWindow {
             try {
                 Stage stage = new Stage();
                 stage.setTitle("Rota da Índia");
-                stage.setScene(buildScene(voyage, ranking, playerName, position, stage));
+                stage.setScene(buildScene(voyageResult.voyage(), voyageResult.ranking(), voyageResult.playerName(), voyageResult.position(), stage));
                 stage.setResizable(false);
                 stage.setOnHidden(e -> closed.countDown());
                 stage.show();
@@ -788,5 +785,8 @@ public class VoyageWindow {
                 (int) Math.round(c.getRed() * 255),
                 (int) Math.round(c.getGreen() * 255),
                 (int) Math.round(c.getBlue() * 255));
+    }
+
+    static record VoyageResult(VoyageStats voyage, RankingBoard ranking, String playerName, int position) {
     }
 }
