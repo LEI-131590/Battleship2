@@ -132,7 +132,7 @@ public class Tasks {
                     menuHelp();
                     break;
 				case PDF:
-					exportPdfReport(game);
+					exportPdfReport(game, "relatorio-battleship.pdf");
 					break;
 				default:
 					System.out.println("Que comando é esse??? Repete ...");
@@ -143,11 +143,11 @@ public class Tasks {
 		System.out.println(GOODBYE_MESSAGE);
 	}
 
-	private static void exportPdfReport(IGame game) {
+	private static void exportPdfReport(IGame game, String pdfFileName) {
 		if (game != null) {
 			try {
-				PdfReport.export(game, Paths.get("relatorio-battleship.pdf"));
-				System.out.println("Relatorio PDF criado com sucesso: " + "relatorio-battleship.pdf");
+				PdfReport.export(game, Paths.get(pdfFileName));
+				System.out.println("Relatorio PDF criado com sucesso: " + pdfFileName);
 			} catch (IOException | DocumentException e) {
 				System.err.println("Erro ao criar o relatorio PDF: " + e.getMessage());
 			}
