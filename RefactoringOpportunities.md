@@ -17,6 +17,12 @@ Cada membro refabrica as classes que testou na Parte 1 e o código que desenvolv
 
 | Local | Cheiro no código | Refabricação | Nº aluno |
 |---|---|---|---|
+| `HistoryDB::saveMove` | Magic String (query SQL hardcoded) | Introduce Constant | 129896 |
+| `HistoryDB::initializeDatabase` | Mysterious Name (variável `sql` pouco descritiva) | Rename | 129896 |
+| `Tasks::menu` | Long Method | Extract Method | 129896 |
+| `Tasks::buildFleet` | Redundant Local Variable (`success` usada apenas uma vez) | Inline | 129896 |
+| `Tasks::readClassicPosition` | Complex Conditional (`input.matches("[A-Z]\\d+")`) | Introduce Variable | 129896 |
+| `Tasks::exportPdfReport` | Hardcoded Parameter (caminho do ficheiro PDF) | Introduce Parameter | 129896 |
 
 ## Jessica
 
