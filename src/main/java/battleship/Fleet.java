@@ -209,7 +209,7 @@ public class Fleet implements IFleet
 	 *
 	 * @param ships The list of ships
 	 */
-	public void printShips(List<IShip> ships)
+	public static void printShips(List<IShip> ships)
 	{
 		assert ships != null;
 
