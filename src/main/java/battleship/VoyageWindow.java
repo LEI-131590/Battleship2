@@ -488,22 +488,8 @@ public class VoyageWindow {
                 {530, 0, 760, 0, 760, 60, 690, 60, 555, 60, 520, 40}                                // Ásia
         };
         // primeiro as praias (um contorno largo cor de areia), depois a terra por cima
-        for (double[] l : lands) {
-            Polygon beach = new Polygon(l);
-            beach.setFill(BEACH);
-            beach.setStroke(BEACH);
-            beach.setStrokeWidth(7);
-            beach.setStrokeLineJoin(StrokeLineJoin.ROUND);
-            map.getChildren().add(beach);
-        }
-        for (double[] l : lands) {
-            Polygon land = new Polygon(l);
-            land.setFill(LAND);
-            land.setStroke(LAND_EDGE);
-            land.setStrokeWidth(1.5);
-            land.setStrokeLineJoin(StrokeLineJoin.ROUND);
-            map.getChildren().add(land);
-        }
+        drawBeaches(map, lands);
+        drawLandMasses(map, lands);
 
         // desertos: o Sara e a Arábia
         map.getChildren().addAll(
@@ -528,6 +514,28 @@ public class VoyageWindow {
             map.getChildren().add(tree(t[0], t[1]));
         }
         map.getChildren().addAll(palm(625, 110), palm(650, 95), palm(640, 140));
+    }
+
+    private static void drawLandMasses(Pane map, double[][] lands) {
+        for (double[] l : lands) {
+            Polygon land = new Polygon(l);
+            land.setFill(LAND);
+            land.setStroke(LAND_EDGE);
+            land.setStrokeWidth(1.5);
+            land.setStrokeLineJoin(StrokeLineJoin.ROUND);
+            map.getChildren().add(land);
+        }
+    }
+
+    private static void drawBeaches(Pane map, double[][] lands) {
+        for (double[] l : lands) {
+            Polygon beach = new Polygon(l);
+            beach.setFill(BEACH);
+            beach.setStroke(BEACH);
+            beach.setStrokeWidth(7);
+            beach.setStrokeLineJoin(StrokeLineJoin.ROUND);
+            map.getChildren().add(beach);
+        }
     }
 
     private static Polygon desert(double... points) {
