@@ -1,0 +1,35 @@
+# Oportunidades de refabricação
+
+Cada membro refabrica as classes que testou na Parte 1 e o código que desenvolveu no sprint 2.
+
+## Beatriz
+
+| Local | Cheiro no código | Refabricação | Nº aluno |
+|---|---|---|---|
+| `Fleet::colisionRisk` | Mysterious Name (erro ortográfico) | Rename | 122668 |
+| `Ship::isInsideBoard` | Duplicated Code (`Game.BOARD_SIZE - 1` repetido) | Introduce Variable | 122668 |
+| `Caravel`, `Carrack`, `Frigate` (construtores) | Duplicated Code | Pull Up Method (para `Ship`) | 122668 |
+| `VoyageWindow::drawLand` | Long Method | Extract Method | 122668 |
+| `VoyageWindow::buildScene` | Magic Number (coordenadas dos marcadores) | Introduce Constant | 122668 |
+| `VoyageWindow::show` | Long Parameter List | Introduce Parameter Object | 122668 |
+
+##  Lara
+
+| Local | Cheiro no código | Refabricação | Nº aluno |
+|---|---|---|---|
+| `HistoryDB::saveMove` | Magic String (query SQL hardcoded) | Introduce Constant | 129896 |
+| `HistoryDB::initializeDatabase` | Mysterious Name (variável `sql` pouco descritiva) | Rename | 129896 |
+| `Tasks::menu` | Long Method | Extract Method | 129896 |
+| `Tasks::buildFleet` | Redundant Local Variable (`success` usada apenas uma vez) | Inline | 129896 |
+| `Tasks::readClassicPosition` | Complex Conditional (`input.matches("[A-Z]\\d+")`) | Introduce Variable | 129896 |
+| `Tasks::exportPdfReport` | Hardcoded Parameter (caminho do ficheiro PDF) | Introduce Parameter | 129896 |
+
+## Jessica
+
+| Local | Cheiro no código | Refabricação | Nº aluno |
+|---|---|---|---|
+
+## Catarina
+
+| Local | Cheiro no código | Refabricação | Nº aluno |
+|---|---|---|---|
