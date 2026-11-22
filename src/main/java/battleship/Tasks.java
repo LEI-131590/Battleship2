@@ -132,16 +132,7 @@ public class Tasks {
                     menuHelp();
                     break;
 				case PDF:
-					if (game != null) {
-						try {
-							PdfReport.export(game, Paths.get("relatorio-battleship.pdf"));
-							System.out.println("Relatorio PDF criado com sucesso: " + "relatorio-battleship.pdf");
-						} catch (IOException | DocumentException e) {
-							System.err.println("Erro ao criar o relatorio PDF: " + e.getMessage());
-						}
-					} else {
-						System.out.println("Crie ou carregue uma frota primeiro.");
-					}
+					exportPdfReport(game);
 					break;
 				default:
 					System.out.println("Que comando é esse??? Repete ...");
@@ -150,6 +141,19 @@ public class Tasks {
 			command = in.next();
 		}
 		System.out.println(GOODBYE_MESSAGE);
+	}
+
+	private static void exportPdfReport(IGame game) {
+		if (game != null) {
+			try {
+				PdfReport.export(game, Paths.get("relatorio-battleship.pdf"));
+				System.out.println("Relatorio PDF criado com sucesso: " + "relatorio-battleship.pdf");
+			} catch (IOException | DocumentException e) {
+				System.err.println("Erro ao criar o relatorio PDF: " + e.getMessage());
+			}
+		} else {
+			System.out.println("Crie ou carregue uma frota primeiro.");
+		}
 	}
 
 	/**
