@@ -15,6 +15,8 @@ import java.awt.Color;
 
 public class PdfReport {
 
+    public static final float CELL_HEIGHT = 30f;
+
     private PdfReport() {
     }
 
@@ -127,7 +129,7 @@ public class PdfReport {
         PdfPCell cell = new PdfPCell(new Phrase(value, font));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(30f);
+        cell.setFixedHeight(CELL_HEIGHT);
         cell.setPadding(0);
         cell.setBorderColor(new Color(190, 200, 210));
         cell.setBorderWidth(0.6f);
