@@ -358,14 +358,14 @@ public class Game implements IGame
 		return false;
 	}
 
-	public void printMyBoard(boolean showShots, boolean show_legend)
+	public void printMyBoard(boolean showShots, boolean showLegend)
 	{
-		BoardPrinter.printBoard(this.myFleet, this.alienMoves, showShots, show_legend);
+		BoardPrinter.printBoard(this.myFleet, this.alienMoves, showShots, showLegend);
 	}
 
-	public void printAlienBoard(boolean show_shots, boolean show_legend)
+	public void printAlienBoard(boolean showShots, boolean showLegend)
 	{
-		BoardPrinter.printBoard(this.alienFleet, this.myMoves, show_shots, show_legend);
+		BoardPrinter.printBoard(this.alienFleet, this.myMoves, showShots, showLegend);
 	}
 
 	public void over() {
