@@ -15,6 +15,8 @@ import java.awt.Color;
 
 public class PdfReport {
 
+    public static final float CELL_HEIGHT = 30f;
+
     private PdfReport() {
     }
 
@@ -41,13 +43,7 @@ public class PdfReport {
         Font normalFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10);
         document.add(new Paragraph("Relatório do Jogo - Battleship", titleFont));
         document.add(new Paragraph(" "));
-        document.add(new Paragraph("Estado da Frota", headingFont));
-        document.add(new Paragraph("Navios a flutuar: " + game.getMyFleet().getFloatingShips().size(), normalFont));
-        document.add(new Paragraph("Navios afundados: " + game.getMyFleet().getSunkShips().size(), normalFont));
-        document.add(new Paragraph("Tiros certeiros: " + game.getHits(), normalFont));
-        document.add(new Paragraph("Tiros invalidos: " + game.getInvalidShots(), normalFont));
-        document.add(new Paragraph("Tiros repetidos: " + game.getRepeatedShots(), normalFont));
-        document.add(new Paragraph("Rajadas registadas: " + game.getAlienMoves().size(), normalFont));
+        addFleetStatistics(document, game, headingFont, normalFont);
         document.add(new Paragraph(" "));
         document.add(new Paragraph("Tabuleiro", headingFont));
         document.add(new Paragraph(" "));
@@ -76,6 +72,16 @@ public class PdfReport {
         document.add(new Paragraph(" "));
         document.add(new Paragraph("Legenda", headingFont));
         document.add(new Paragraph("# = Navio; * = Tiro certeiro; " + "o = Tiro na agua; " + "- = Adjacente a navio afundado; " + ". = Agua", normalFont));
+    }
+
+    private static void addFleetStatistics(Document document, IGame game, Font headingFont, Font normalFont) {
+        document.add(new Paragraph("Estado da Frota", headingFont));
+        document.add(new Paragraph("Navios a flutuar: " + game.getMyFleet().getFloatingShips().size(), normalFont));
+        document.add(new Paragraph("Navios afundados: " + game.getMyFleet().getSunkShips().size(), normalFont));
+        document.add(new Paragraph("Tiros certeiros: " + game.getHits(), normalFont));
+        document.add(new Paragraph("Tiros invalidos: " + game.getInvalidShots(), normalFont));
+        document.add(new Paragraph("Tiros repetidos: " + game.getRepeatedShots(), normalFont));
+        document.add(new Paragraph("Rajadas registadas: " + game.getAlienMoves().size(), normalFont));
     }
 
     private static char[][] createBoard(IGame game) {
@@ -123,7 +129,7 @@ public class PdfReport {
         PdfPCell cell = new PdfPCell(new Phrase(value, font));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        cell.setFixedHeight(30f);
+        cell.setFixedHeight(CELL_HEIGHT);
         cell.setPadding(0);
         cell.setBorderColor(new Color(190, 200, 210));
         cell.setBorderWidth(0.6f);

@@ -110,7 +110,7 @@ public class Fleet implements IFleet
      * @see battleship.IFleet#getShipsLike(java.lang.String)
      */
     @Override
-    public List<IShip> getShipsLike(String category)
+    public List<IShip> getShipsByCategory(String category)
     {
 		assert category != null;
 
@@ -242,7 +242,7 @@ public class Fleet implements IFleet
     {
 		assert category != null;
 
-		printShips(getShipsLike(category));
+		printShips(getShipsByCategory(category));
     }
 
 	/**

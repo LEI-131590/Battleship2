@@ -111,7 +111,9 @@ public class Position implements IPosition {
 	 */
 	@Override
 	public boolean isInside() {
-		return row >= 0 && column >= 0 && row < Game.BOARD_SIZE && column < Game.BOARD_SIZE;
+		boolean validRow = row >= 0 && row < Game.BOARD_SIZE;
+		boolean validColumn = column >= 0 && column < Game.BOARD_SIZE;
+		return validRow && validColumn;
 	}
 
 	/**
