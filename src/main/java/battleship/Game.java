@@ -3,6 +3,7 @@ package battleship;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -262,10 +263,7 @@ public class Game implements IGame
 		alienMoves.add(move);
 
 		// 2. Extract the coordinates into a readable String
-		StringBuilder formattedCoordinates = new StringBuilder();
-		for (IPosition p : shots) {
-			formattedCoordinates.append(p.getClassicRow()).append(p.getClassicColumn()).append(" ");
-		}
+		StringBuilder formattedCoordinates = buildFormattedCoordinates(shots);
 
 		// 3. Send everything to the SQLite database
 		HistoryDB.saveMove(moveNumber, formattedCoordinates.toString().trim(), jsonResult);
@@ -273,6 +271,14 @@ public class Game implements IGame
 		moveNumber++;
 
 		//System.out.println(move);
+	}
+
+	private static @NotNull StringBuilder buildFormattedCoordinates(List<IPosition> shots) {
+		StringBuilder formattedCoordinates = new StringBuilder();
+		for (IPosition p : shots) {
+			formattedCoordinates.append(p.getClassicRow()).append(p.getClassicColumn()).append(" ");
+		}
+		return formattedCoordinates;
 	}
 
 	/**
