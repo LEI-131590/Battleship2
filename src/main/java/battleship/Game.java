@@ -310,15 +310,13 @@ public class Game implements IGame
 		IShip ship = myFleet.shipAt(pos);
 		if (ship == null)
 			return new ShotResult(true, false, null, false);
-		else
-		{
-			ship.shoot(pos);
-			countHits++;
-			if (!ship.stillFloating()) {
-				countSinks++;
-			}
-			return new ShotResult(true, false, ship, !ship.stillFloating());
+
+		ship.shoot(pos);
+		countHits++;
+		if (!ship.stillFloating()) {
+			countSinks++;
 		}
+		return new ShotResult(true, false, ship, !ship.stillFloating());
 	}
 
 	@Override

@@ -33,8 +33,9 @@ Cada membro refabrica as classes que testou na Parte 1 e o código que desenvolv
 
 | Local | Cheiro no código | Refabricação   | Nº aluno |
 |---|---|---|---|
-| `Game::printBoard, printShips, printBoardShots, printBoardFrame` | Large Class / responsabilidades diferentes | Extract Class  | 131590   |
-| `Game::fireShots` | Método com várias responsabilidades | Extract Method | 131590   |
-| `Game::readEnemyFire` | Complex Method | Decompose Conditional | 131590   |
-| `Game::getRemainingShips` | Temporary Variable desnecessária | Inline Variable | 131590   |
-| `Game::jsonShots` | Redundant Initialization | Remove Redundant Initialization| 131590   |
+| `Game::printBoard, printShips, printBoardShots, printBoardFrame` | Large Class / responsabilidades diferentes | Extract Class  | 131590 |
+| `Game::fireShots` | Método com várias responsabilidades | Extract Method | 131590 |
+| `Game::readEnemyFire` | Complex Method | Decompose Conditional | 131590 |
+| `Game::getRemainingShips` | Temporary Variable desnecessária | Inline Variable | 131590 |
+| `Game::jsonShots` | Redundant Initialization | Remove Redundant Initialization| 131590 |
+| `Game::fireSingleShot` | Nested Conditional | Replace Nested Conditional with Guard Clauses| 131590 |
