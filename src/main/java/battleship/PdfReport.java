@@ -148,4 +148,7 @@ public class PdfReport {
         table.addCell(cell);
     }
 
+    // Provoke ParameterName
+    public void testParameterName(int playerScore) { }
+
 }
