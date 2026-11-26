@@ -161,6 +161,11 @@ public class VoyageStats {
         return Destination.fromPoints(getPoints());
     }
 
+    /** Metodo com nome fora da convenção, para testar o quality gate do Checkstyle */
+    public int Calcular_Pontos() {
+        return getPoints();
+    }
+
     /**
      * Mostra no terminal o resumo da viagem.
      * (Mais tarde, este resumo passa a aparecer numa janela com a caravela animada.)
